@@ -1,0 +1,15 @@
+@import './constants/fonts';
+@import './constants/functions';
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: $subTitle;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+  box-sizing: border-box;
+}

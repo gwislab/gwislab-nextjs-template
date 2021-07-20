@@ -1,0 +1,15 @@
+{
+  "hello": "Questmey, Apprenez en Posant des Questions!",
+  "world": "Basculer ici",
+  "navTitles": ["Accueil", "Activités", "Compétitions", "Emplois", "Connexion"],
+  "headerH3": {
+    "text": "Apprendre par",
+    "options": ["Poser des questions!", "Discuter!", "Concurrentie!"]
+  },
+  "headerP": "Rencontrez d'autres étudiants dans différents lieux de vos domaines d'études avec le même objectif de réussite.",
+  "button": {
+    "createAccount": "Créer un compte",
+    "login": "Connexion",
+    "signup": "Inscrivez-vous"
+  }
+}
