@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { Button } from 'rsuite';
 
 import styles from '../src/assets/styles/scss/home.module.scss';
 
@@ -49,6 +50,10 @@ export default function Home({ toggleTheme }) {
             style={{ fontSize: 20, textAlign: 'center', cursor: 'pointer', color: 'black' }}>
             Toggle Theme
           </button>
+
+          <Button appearance="primary" href="https://rsuitejs.com/">
+            Getting started with rsuitejs
+          </Button>
         </div>
       </main>
 
