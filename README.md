@@ -15,6 +15,7 @@ Frontend for Questmey Project
 - seo: https://www.youtube.com/watch?v=MA95q4Rj7g8
 - ant design: https://ant.design/components/overview/
 - rsuit: https://rsuitejs.com/components/overview/
+- config https://github.com/SolidZORO/next-plugin-antd-less
 
 ## Setup and Installation
 - you should have yarn installed.

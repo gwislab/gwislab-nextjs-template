@@ -6,8 +6,8 @@
 
 // export default MyApp;
 import '../src/assets/styles/scss/global.scss';
-import 'rsuite/dist/styles/rsuite-default.css';
-
+import 'antd/dist/antd.less';
+require('../src/assets/styles/variables.less');
 import { useTranslation } from 'next-i18next';
 import { appWithTranslation } from 'next-i18next';
 import { DefaultSeo } from 'next-seo';
