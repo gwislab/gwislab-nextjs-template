@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { decrementCount, incrementCount } from '../src/redux/test/test';
 
+
 export default function Home() {
   const count = useSelector(state => state.test.count);
+  // const {editor} = useSelector(state => state.grapes);
 
   const dispatch = useDispatch();
   return (
@@ -24,6 +26,10 @@ export default function Home() {
           <button className='rounded-md shadow bg-secondary px-4 py-2' onClick={() => dispatch(decrementCount(10))}>Decrement</button>
         </div>
       </div>
+      <div id="gjs">
+        <h1>Hello World Component!</h1>
+      </div>
+      <div id="blocksS"></div>
     </div>
   );
 }
