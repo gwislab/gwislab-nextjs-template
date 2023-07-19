@@ -1,10 +1,15 @@
 import React from "react";
 
+import { ITranslationKeys } from "assets";
 import { useAppDispatch, useAppSelector } from "hooks";
 import Head from "next/head";
 import { decrementCount, incrementCount } from "redux";
 
-const HomeScreen = () => {
+interface IHomeScreenArgs {
+  t: (key: ITranslationKeys) => string;
+}
+
+const HomeScreen = ({ t }: IHomeScreenArgs) => {
   const count = useAppSelector((state) => state.test.count);
   // const {editor} = useSelector(state => state.grapes);
 
@@ -12,11 +17,13 @@ const HomeScreen = () => {
   return (
     <div>
       <Head>
-        <title>{"Gwislab React Nextjs Template"}</title>
+        <title>{t("welcome")}</title>
       </Head>
       <div className=" w-fit flex-col align-center m-auto mb-4">
-        <h3 className="text-secondary text-xl">Gwislab React Nextjs Template</h3>
-        <h1 className="text text-5xl font-bold">Gwislab count --- {count}</h1>
+        <h3 className="text-secondary text-xl">{t("welcome")}</h3>
+        <h1 className="text text-5xl font-bold">{`${t(
+          "reduxCount"
+        )} ${count}`}</h1>
         <div className="flex align-center pt-4">
           <button
             className="text-white rounded-md shadow bg-primary px-4 py-2 mr-2"
@@ -24,7 +31,10 @@ const HomeScreen = () => {
           >
             Increment
           </button>
-          <button className="rounded-md shadow bg-secondary px-4 py-2" onClick={() => dispatch(decrementCount(10))}>
+          <button
+            className="rounded-md shadow bg-secondary px-4 py-2"
+            onClick={() => dispatch(decrementCount(10))}
+          >
             Decrement
           </button>
         </div>

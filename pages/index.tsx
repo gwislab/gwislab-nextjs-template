@@ -1,5 +1,10 @@
+import React from "react";
+
+import { IPageArgs } from "configs";
 import { HomeScreen } from "screens";
 
-export default function Home() {
-  return HomeScreen;
-}
+const Home = ({ t }: IPageArgs) => {
+  return <HomeScreen t={t} />;
+};
+
+export default Home;
