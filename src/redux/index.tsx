@@ -1,3 +1,3 @@
 export { default as store } from "./store";
 export * from "./interface";
-export * from "./test";
+export * from "./language";
