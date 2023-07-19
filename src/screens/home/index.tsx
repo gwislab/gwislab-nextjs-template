@@ -1,8 +1,7 @@
 import React from "react";
 
-import Head from "next/head";
-
 import { useAppDispatch, useAppSelector } from "hooks";
+import Head from "next/head";
 import { decrementCount, incrementCount } from "redux";
 
 const HomeScreen = () => {

@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "yarn eslint .",
+    "test": "yarn",
     "fix-lint": "yarn eslint . --fix"
   },
   "dependencies": {
