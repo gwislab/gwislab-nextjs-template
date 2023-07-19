@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ITranslationKeys } from "assets";
+import { Button } from "components";
 import { useAppDispatch } from "hooks";
 import Head from "next/head";
 import { changeLanguage } from "redux";
@@ -20,22 +21,18 @@ const HomeScreen = ({ t }: IHomeScreenArgs) => {
       </Head>
       <div className=" w-fit flex-col align-center m-auto mb-4">
         <h3 className="text-secondary text-xl">{t("welcome")}</h3>
-        <h1 className="text text-5xl font-bold">{`${t(
-          "reduxLanguage"
-        )}`}</h1>
+        <h1 className="text text-5xl font-bold">{`${t("reduxLanguage")}`}</h1>
         <div className="flex align-center pt-4">
-          <button
-            className="text-white rounded-md shadow bg-primary px-4 py-2 mr-2"
+          <Button
+            text={"EN lang"}
             onClick={() => dispatch(changeLanguage("en"))}
-          >
-            EN lang
-          </button>
-          <button
-            className="rounded-md shadow bg-secondary px-4 py-2"
+            className="mr-4"
+          />
+          <Button
+            text={"FR lang"}
+            bgColor="primary"
             onClick={() => dispatch(changeLanguage("fr"))}
-          >
-            FR lang
-          </button>
+          />
         </div>
       </div>
     </div>

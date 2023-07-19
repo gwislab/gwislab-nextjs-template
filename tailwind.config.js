@@ -7,17 +7,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary": "#091D38",
-        "placeholder": "#031F4690",
-        "nav": "#021023",
-        "secondary": "#FFCB27",
-        "scrollBar": "#69788D",
-        "facebook": "#039BE6",
-        "instagram": "#FB0D4B",
-        "twitter": "#0288D1",
-        "linkedin": "#0288D1",
-        "whatsapp": "#40C351",
-        "behance": "#000000",
+        red: "#DE212B",
+        black: "#000000",
+        white: "#ffffff",
+        normal: "#FCFCFD",
+        primary: "#FEAA53",
+        secondary: "#7A24A1",
+        transparent: "transparent",
       },
       fontFamily: {
         "title": ["Risque", "cursive"],
