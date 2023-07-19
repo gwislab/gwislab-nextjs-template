@@ -1,14 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const incrementCountAction = (state, action) => {
+import { ITestState } from "./interface";
+
+const incrementCountAction = (
+  state: ITestState,
+  action: PayloadAction<number>
+) => {
   state.count = state.count + action.payload || 1;
 };
-const decrementCountAction = (state, action) => {
+
+const decrementCountAction = (
+  state: ITestState,
+  action: PayloadAction<number>
+) => {
   state.count = state.count - action.payload || 1;
 };
 
 const testSlice = createSlice({
-  name: 'test',
+  name: "test",
   initialState: {
     count: 0,
   },
