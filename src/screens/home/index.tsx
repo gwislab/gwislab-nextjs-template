@@ -2,8 +2,8 @@ import React from "react";
 
 import Head from "next/head";
 
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { decrementCount, incrementCount } from "../../redux";
+import { useAppDispatch, useAppSelector } from "hooks";
+import { decrementCount, incrementCount } from "redux";
 
 const HomeScreen = () => {
   const count = useAppSelector((state) => state.test.count);
@@ -16,9 +16,7 @@ const HomeScreen = () => {
         <title>{"Gwislab React Nextjs Template"}</title>
       </Head>
       <div className=" w-fit flex-col align-center m-auto mb-4">
-        <h3 className="text-secondary text-xl">
-          Gwislab React Nextjs Template
-        </h3>
+        <h3 className="text-secondary text-xl">Gwislab React Nextjs Template</h3>
         <h1 className="text text-5xl font-bold">Gwislab count --- {count}</h1>
         <div className="flex align-center pt-4">
           <button
@@ -27,10 +25,7 @@ const HomeScreen = () => {
           >
             Increment
           </button>
-          <button
-            className="rounded-md shadow bg-secondary px-4 py-2"
-            onClick={() => dispatch(decrementCount(10))}
-          >
+          <button className="rounded-md shadow bg-secondary px-4 py-2" onClick={() => dispatch(decrementCount(10))}>
             Decrement
           </button>
         </div>
