@@ -12,5 +12,4 @@ export type IColor =
   | "white"
   | "black"
   | "normal"
-  | "transparent"
-; 
+  | "transparent";

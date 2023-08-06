@@ -1,4 +1,13 @@
 {
     "welcome": "Welcome to Gwislab React Nextjs Template",
-    "reduxLanguage": "Gwislab Translation --- "
+    "reduxLanguage": "Gwislab Translation --- ",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "en": "English",
+    "fr": "Français",
+    "logout": "Logout",
+    "location": "Location",
+    "tel": "Tel"
 }

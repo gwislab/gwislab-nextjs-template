@@ -7,11 +7,12 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER,
+  REGISTER
 } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 
 import languageReducer from "./language";
+import systemReducer from "./system";
 
 const persistConfig = {
   key: "gwislab",
@@ -21,6 +22,7 @@ const persistConfig = {
 
 const reducers = {
   language: languageReducer,
+  system: systemReducer
 };
 
 const persistedReducer = persistCombineReducers(persistConfig, reducers);
@@ -31,9 +33,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    })
 });
 
 export const persistor = persistStore(store);

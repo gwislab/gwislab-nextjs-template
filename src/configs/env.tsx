@@ -59,4 +59,5 @@ export const APP_ENV = {
   APP_DEFAULT_MODE: "light",
   APP_DEFAULT_DIRECTION: "ltr",
   APP_DEFAULT_LAYOUT: "full",
+  APP_TEL_PHONE: "680353245"
 };

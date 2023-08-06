@@ -7,7 +7,7 @@ const Colors: Record<IColor, string> = {
   normal: "#FCFCFD",
   primary: "#FEAA53",
   secondary: "#7A24A1",
-  transparent: "transparent",
+  transparent: "transparent"
 };
 
 export default Colors;

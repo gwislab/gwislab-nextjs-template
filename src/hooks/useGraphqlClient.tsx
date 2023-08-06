@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { useAppSelector } from "./redux";
 
 const useGraphqlClient = () => {
-  const token  = useAppSelector((state) => state.user);
+  const token = useAppSelector((state) => state.user);
 
   console.log("in the client of graphql ");
   const client = new ApolloClient({
@@ -11,8 +11,8 @@ const useGraphqlClient = () => {
     cache: new InMemoryCache(),
     headers: {
       "gwislab-user-locale": "en",
-      authorization: `Bearer ${token}`,
-    },
+      authorization: `Bearer ${token}`
+    }
   });
 
   return client;

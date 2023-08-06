@@ -5,11 +5,11 @@ import en from "./en.json";
 import fr from "./fr.json";
 const translation = {
   en: {
-    translation: en,
+    translation: en
   },
   fr: {
-    translation: fr,
-  },
+    translation: fr
+  }
 };
 
 export type ITranslationKeys = keyof typeof en;
@@ -26,8 +26,8 @@ const initializeI18n = i18n
     fallbackLng: "en",
 
     interpolation: {
-      escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-    },
+      escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+    }
   });
 
 export default initializeI18n;

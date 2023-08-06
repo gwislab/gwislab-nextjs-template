@@ -1,8 +1,5 @@
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   media: true,
   theme: {
     extend: {
@@ -13,19 +10,19 @@ module.exports = {
         normal: "#FCFCFD",
         primary: "#FEAA53",
         secondary: "#7A24A1",
-        transparent: "transparent",
+        transparent: "transparent"
       },
       fontFamily: {
-        "title": ["Risque", "cursive"],
-        "text": ["Poppins", "sans-serif"]
+        title: ["Risque", "cursive"],
+        text: ["Poppins", "sans-serif"]
       },
       screens: {
-        "tablet": "910px",
-      },
-    },
+        tablet: "910px"
+      }
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [ require("tailwind-scrollbar")],
+  plugins: [require("tailwind-scrollbar")]
 };
