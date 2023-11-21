@@ -13,24 +13,27 @@
     "incremental": true,
     "skipLibCheck": true,
 
-    // "lib": ["dom", "es2017", "esnext.asynciterable", "esnext"],
-    // "moduleResolution": "node",
-    // "allowJs": true,
-    // "strict": true,
-    // "noImplicitAny": true,
-    // "strictNullChecks": true,
-    // "strictFunctionTypes": true,
-    // "strictPropertyInitialization": true,
-    // "noImplicitThis": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": false,
-    // "noImplicitReturns": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "esModuleInterop": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     // "typeRoots": ["./@types", "./node_modules/@types"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "*": ["src/*"],
+      "assets": ["src/assets/*"],
+      "config/*": ["src/config/*"],
+      "guards/*": ["src/guards/*"],
+      "interfaces/*": ["src/interfaces/*"],
+      "interceptors/*": ["src/interceptors/*"],
+      "utils/*": ["src/utils/*"],
+      "lib/*": ["src/lib/*"],
+      "pipes/*": ["src/pipes/*"],
+      "resources/*": ["src/resources/*"]
+    }
   },
-  // "files": ["@types/index.d.ts"],
   "exclude": ["node_modules"],
   "include": ["./src/**/*", "./@types", "./src/**/*.json"]
+  // "files": ["@types/index.d.ts"],
 }

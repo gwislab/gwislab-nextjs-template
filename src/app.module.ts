@@ -13,7 +13,8 @@ import { UtilsModule } from './utils/index.module';
 import { GraphQLError } from 'graphql';
 import { HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { PubSub } from 'graphql-subscriptions';
-import { ResolverModule } from './resources/resolvers/index.module';
+import { ResolverModule } from 'resources/resolvers/index.module';
+import { ApiModule } from 'resources/apis/index.module';
 
 const langOptions = ['lang', 'Accept-Language', 'language'];
 
@@ -83,6 +84,7 @@ const pubsub = new PubSub();
     ResolverModule,
     RepositoryModule,
     UtilsModule,
+    ApiModule,
   ],
 })
 export class AppModule {}

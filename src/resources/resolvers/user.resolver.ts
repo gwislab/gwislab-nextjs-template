@@ -8,17 +8,16 @@ import {
   Parent,
   Subscription,
 } from '@nestjs/graphql';
-import { UserService } from '../services/user.service';
-import { UserEntity } from '../entities/user.entity';
-import { SignUpUserInput, LoginUserInput } from '../dtos/user-auth.input';
-import { AppLoggerUtils } from '../../utils/logger.utils';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { UseGuards, UsePipes } from '@nestjs/common';
-import AppContext from 'src/interfaces/context.interface';
-import { ValidateSignupArgs } from '../../pipes/input.validation.pipe';
-import { AppErrorUtils } from 'src/utils/error.utils';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import { PubSub } from 'graphql-subscriptions';
+import { UserEntity } from 'resources/entities';
+import { UserService } from 'resources/services';
+import { AppErrorUtils, AppLoggerUtils } from 'utils';
+import { ValidateSignupArgs } from 'pipes';
+import { LoginUserInput, SignUpUserInput } from 'resources/dtos';
+import { AuthGuard } from 'guards';
+import { AppContext } from 'interfaces';
 
 @Resolver(() => UserEntity)
 export class UserResolver {

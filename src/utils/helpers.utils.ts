@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { IsMatchArgs } from 'src/interfaces';
 import { AppErrorUtils } from './error.utils';
 import * as moment from 'moment';
+import { IsMatchArgs } from 'interfaces';
 
 @Injectable()
 export class HelperUtils {

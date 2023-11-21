@@ -1,8 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { ELocale, ESignUpMethod, EUserGender, EUserRole } from '@prisma/client';
+import { CommonCreateParams } from 'resources/dtos';
 
 @ObjectType()
-export class UserEntity {
+export class UserEntity extends CommonCreateParams {
   @Field(() => String)
   id: string;
 
@@ -61,7 +62,4 @@ export class UserEntity {
 
   @Field(() => Boolean)
   isPhoneNumberVerified: boolean;
-
-  createdAt: Date;
-  updatedAt: Date;
 }

@@ -5,10 +5,10 @@ import { UserEntity } from '../entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../repositories/user.repository';
 import { AppErrorUtils } from '../../utils/error.utils';
-import { IGetJwtPayload, IJwtPayload, IRequest } from 'src/interfaces';
 import * as moment from 'moment';
 import { I18nContext } from 'nestjs-i18n';
-import { HelperUtils } from 'src/utils/helpers.utils';
+import { HelperUtils } from 'utils';
+import { IGetJwtPayload, IJwtPayload, IRequest } from 'interfaces';
 
 @Injectable()
 export class UserService {

@@ -60,3 +60,28 @@ model User {
 
   @@map("user")
 }
+
+model ServerDocument {
+  id           String  @id @default(uuid())
+  name         String?
+  url          String?
+  size         Int?
+  type         String?
+  fullPath     String? @map("full_path")
+  destination  String?
+  originalName String? @map("original_name")
+  isPublic     Boolean @default(false) @map("is_public")
+
+  reference String?
+
+  extraData Json? @default("{}") @map("extra_data")
+
+  createdBy String?  @map("created_by")
+  updatedBy String?  @map("updated_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("server_document")
+}

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { AppLoggerUtils } from '../../utils/logger.utils';
 import { User } from '@prisma/client';
-import prisma from '../../lib/prisma';
-import { AppErrorUtils } from 'src/utils/error.utils';
-import { UserEntity } from '../entities/user.entity';
+import { AppErrorUtils } from 'utils';
+import { prisma } from 'lib';
+import { GetUserParams, SaveUserDetailsParams } from 'resources/dtos';
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +14,7 @@ export class UserRepository {
     this.logger.setContext(UserRepository.name);
   }
 
-  saveUserDetails = async (data: UserEntity): Promise<User> => {
+  saveUserDetails = async (data: SaveUserDetailsParams): Promise<User> => {
     try {
       return await prisma.user.create({ data });
     } catch (error) {
@@ -22,7 +22,7 @@ export class UserRepository {
     }
   };
 
-  getUserByFilter = async (where: Partial<UserEntity>): Promise<User> => {
+  getUserByFilter = async (where: GetUserParams): Promise<User> => {
     try {
       return await prisma.user.findFirst({ where });
     } catch (error) {

@@ -1,4 +1,4 @@
-import { PrismaClient, User } from '@prisma/client';
+import { ELocale, PrismaClient, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { PubSub } from 'graphql-subscriptions';
 
@@ -15,7 +15,7 @@ export default interface AppContext {
   req: IRequest;
   res: Response;
   pubsub: PubSub;
-  locale: 'en' | 'fr';
+  locale: ELocale;
 }
 
 export interface IJwtPayload {
