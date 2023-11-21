@@ -6,16 +6,31 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+
+    // "lib": ["dom", "es2017", "esnext.asynciterable", "esnext"],
+    // "moduleResolution": "node",
+    // "allowJs": true,
+    // "strict": true,
+    // "noImplicitAny": true,
+    // "strictNullChecks": true,
+    // "strictFunctionTypes": true,
+    // "strictPropertyInitialization": true,
+    // "noImplicitThis": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": false,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "esModuleInterop": true,
+    // "typeRoots": ["./@types", "./node_modules/@types"],
+    "resolveJsonModule": true
+  },
+  // "files": ["@types/index.d.ts"],
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*", "./@types", "./src/**/*.json"]
 }

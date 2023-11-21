@@ -1,0 +1,19 @@
+{
+  "passwordNotMatch": "confirm password and password must be the same",
+  "termsAndConditionRequired": "l'acceptation des termes et conditions est requise avant de poursuivre",
+  "userAlreadyExit": "user already exist",
+  "userNotFound": "utilisateur non trouvé",
+  "invalidPassword": "mot de passe invalide",
+  "invalidEmail": "email invalide",
+  "invalidToken": "jeton invalide",
+  "missingAuthHeader": "En-tête d'autorisation manquante",
+  "sessionExpired": "session expire, veuillez vous connecter à nouveau !",
+  "badRequest": "demande invalide",
+  "404": "erreur 404",
+  "forbidden": "interdit",
+  "requiredField": "champ obligatoire",
+  "fieldRequired": "{field} obligatoire",
+  "unauthorized": "unauthorized",
+  "tooManyRequest": "trop de demandes",
+  "somethingWentWrong": "Quelque chose s'est mal passé, veuillez nous contacter à l'adresse issues@gwislab.com"
+}

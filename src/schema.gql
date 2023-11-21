@@ -1,0 +1,73 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum ELocale {
+  EN
+  FR
+}
+
+enum ESignUpMethod {
+  APP
+  FACEBOOK
+  GOOGLE
+}
+
+enum EUserGender {
+  FEMALE
+  MALE
+}
+
+enum EUserRole {
+  ADMIN
+  CLIENT
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  loginUser(loginUserInput: LoginUserInput!): UserEntity!
+  signupUser(signupUserInput: SignUpUserInput!): UserEntity!
+}
+
+type Query {
+  me: UserEntity!
+  publishChat: String!
+}
+
+input SignUpUserInput {
+  cpassword: String!
+  email: String!
+  isTermsAgreed: Boolean!
+  password: String!
+}
+
+type Subscription {
+  addChat: String!
+}
+
+type UserEntity {
+  address: String
+  country: String
+  email: String!
+  expiresIn: String
+  firstName: String!
+  gender: EUserGender
+  id: String!
+  isEmailVerified: Boolean!
+  isPhoneNumberVerified: Boolean!
+  isTermsAgreed: Boolean!
+  lastName: String
+  locale: ELocale!
+  name: String
+  phoneNumber: String
+  profileUrl: String
+  signupMethod: ESignUpMethod!
+  state: String
+  token: String
+  userRole: EUserRole!
+  zip: String
+}

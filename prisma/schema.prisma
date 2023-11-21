@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EUserRole {
+  ADMIN
+  CLIENT
+}
+
+enum EUserGender {
+  MALE
+  FEMALE
+}
+
+enum ESignUpMethod {
+  APP
+  GOOGLE
+  FACEBOOK
+}
+
+enum ELocale {
+  EN
+  FR
+}
+
+model User {
+  id          String  @id @default(uuid())
+  email       String  @unique
+  name        String? @map("name")
+  firstName   String? @map("first_name")
+  lastName    String? @map("last_name")
+  password    String
+  phoneNumber String? @unique @map("phone_number")
+  address     String?
+  country     String?
+  state       String?
+  zip         String?
+  profileUrl  String? @map("profile_url")
+
+  locale       ELocale       @default(EN)
+  signupMethod ESignUpMethod @default(APP) @map("signup_method")
+  gender       EUserGender?
+  userRole     EUserRole     @default(CLIENT) @map("user_role")
+
+  isEmailVerified       Boolean @default(false) @map("email_verified")
+  isPhoneNumberVerified Boolean @default(false) @map("is_phone_number_verified")
+  isTermsAgreed         Boolean @default(false) @map("is_terms_agreed")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime?
+
+  @@map("user")
+}
