@@ -1,4 +1,5 @@
 {
     "success": "opération réussie",
-    "signupEmailSent": " Merci de vous être inscrit, un code de vérification et un lien ont été envoyés à votre adresse électronique "
+    "signupEmailSent": "Merci de vous être inscrit, un lien de vérification est envoyés à votre adresse électronique",
+    "verificationLinkResent": "Veuillez vérifier votre courrier électronique, un lien de vérification est envoyé à votre adresse électronique."
 }

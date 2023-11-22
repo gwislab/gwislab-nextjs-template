@@ -19,7 +19,12 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GlobalInterceptor } from 'interceptors';
 import { GlobalParamsValidator } from 'pipes';
 
-const langOptions = ['lang', 'Accept-Language', 'language'];
+const langOptions = [
+  'lang',
+  'Accept-Language',
+  'language',
+  'doormot-user-locale',
+];
 
 const logger = new AppLoggerUtils();
 const pubsub = new PubSub();

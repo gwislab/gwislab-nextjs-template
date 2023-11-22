@@ -10,7 +10,7 @@ import { I18nService } from 'nestjs-i18n';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { AppErrorUtils } from './error.utils';
-import { EUserRole } from '@prisma/client';
+import { ELocale, EUserRole } from '@prisma/client';
 import { AppContext } from 'interfaces';
 
 @Injectable()
@@ -45,7 +45,7 @@ export class AuthGuardUtils {
           HttpStatus.UNAUTHORIZED,
         );
       }
-      const foundUser = await prisma.user.findFirst({
+      let foundUser = await prisma.user.findFirst({
         where: {
           id: payload.userId,
         },
@@ -56,6 +56,20 @@ export class AuthGuardUtils {
           this.i18n.t('errors.notAuthorized'),
           HttpStatus.UNAUTHORIZED,
         );
+      }
+
+      const foundLocale = req.headers['doormot-user-locale'] as string;
+
+      if (foundLocale && foundUser.locale.toLowerCase() !== foundLocale) {
+        // change user locale settings
+        foundUser = await prisma.user.update({
+          where: {
+            id: payload.userId,
+          },
+          data: {
+            locale: foundLocale.toUpperCase() as ELocale,
+          },
+        });
       }
 
       req.user = foundUser;

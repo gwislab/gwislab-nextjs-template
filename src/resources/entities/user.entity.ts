@@ -65,7 +65,7 @@ export class UserEntity extends CommonCreateParams {
 }
 
 @ObjectType()
-export class SignupUserResponse {
+export class UserResponse {
   @Field(() => String)
   message: string;
 

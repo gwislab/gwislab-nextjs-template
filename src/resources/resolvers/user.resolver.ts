@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PubSub } from 'graphql-subscriptions';
-import { SignupUserResponse, UserEntity } from 'resources/entities';
+import { UserResponse, UserEntity } from 'resources/entities';
 import { UserService } from 'resources/services';
 import { AppErrorUtils, AppLoggerUtils } from 'utils';
 import { LoginUserInput, SignUpUserInput } from 'resources/dtos';
@@ -28,7 +28,7 @@ export class UserResolver {
     this.logger.setContext(UserResolver.name);
   }
 
-  @Mutation(() => SignupUserResponse)
+  @Mutation(() => UserResponse)
   signupUser(
     @I18n() i18n: I18nContext,
     @Args('signupUserInput') signupUserInput: SignUpUserInput,
@@ -40,7 +40,21 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => SignupUserResponse)
+  @UseGuards(AuthGuard)
+  @Mutation(() => UserResponse)
+  resendEmailVerificationLink(
+    @I18n() i18n: I18nContext,
+    @Context() { req }: AppContext,
+  ) {
+    try {
+      const { user } = req;
+      return this.userService.resendVerificationLink(user, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @Mutation(() => UserResponse)
   loginUser(
     @I18n() i18n: I18nContext,
     @Args('loginUserInput') loginUserInput: LoginUserInput,
@@ -53,7 +67,7 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => SignupUserResponse)
+  @Query(() => UserResponse)
   me(@I18n() i18n: I18nContext, @Context() { req }: AppContext) {
     try {
       const { user } = req;

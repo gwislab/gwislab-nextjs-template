@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { AppLoggerUtils } from '../../utils/logger.utils';
 import { SignUpUserInput, LoginUserInput } from '../dtos/user-auth.input';
-import { SignupUserResponse, UserEntity } from '../entities/user.entity';
+import { UserResponse, UserEntity } from '../entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../repositories/user.repository';
 import { AppErrorUtils } from '../../utils/error.utils';
@@ -33,7 +33,7 @@ export class UserService {
   signup = async (
     data: SignUpUserInput,
     i18n: I18nContext,
-  ): Promise<SignupUserResponse> => {
+  ): Promise<UserResponse> => {
     try {
       const userExist = await this.userRepository.getUserByFilter({
         email: data.email,
@@ -80,10 +80,50 @@ export class UserService {
     }
   };
 
+  resendVerificationLink = async (
+    user: UserEntity,
+    i18n: I18nContext,
+  ): Promise<UserResponse> => {
+    try {
+      const userExist = await this.userRepository.getUserByFilter({
+        email: user.email,
+      });
+
+      if (!userExist) {
+        throw this.error.handler(
+          i18n.t('errors.userNotFound'),
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const subject = i18n.t('email.newSignupSubject');
+
+      const { verificationLink, expiresAt } =
+        await this.utils.generateEmailLink(user);
+
+      const html = emailTemplates.newSignup.getTemplates[i18n.lang]({
+        subject,
+        username: user.email,
+        verificationLink,
+        expiresAt,
+      });
+
+      await this.emailUtils.sendEmail({ to: user.email, subject, html });
+
+      return {
+        message: i18n.t('success.verificationLinkResent'),
+        payload: {
+          ...user,
+        },
+      };
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
   login = async (
     data: LoginUserInput,
     i18n: I18nContext,
-  ): Promise<SignupUserResponse> => {
+  ): Promise<UserResponse> => {
     try {
       const user = await this.userRepository.getUserByFilter({
         email: data.email,
@@ -123,10 +163,7 @@ export class UserService {
     }
   };
 
-  getMe = async (
-    userId: string,
-    i18n: I18nContext,
-  ): Promise<SignupUserResponse> => {
+  getMe = async (userId: string, i18n: I18nContext): Promise<UserResponse> => {
     try {
       const user = await this.userRepository.getUserByFilter({
         id: userId,

@@ -5,8 +5,8 @@ import * as moment from 'moment';
 import { IsMatchArgs } from 'interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { AppLoggerUtils } from './logger.utils';
-import { User } from '@prisma/client';
 import { AppConfig } from 'config';
+import { UserEntity } from 'resources/entities';
 
 @Injectable()
 export class HelperUtils {
@@ -41,7 +41,7 @@ export class HelperUtils {
   addSecondsToDate = (date: Date, seconds: number) =>
     moment(date).add(seconds, 'seconds');
 
-  generateEmailLink = async (user: User) => {
+  generateEmailLink = async (user: UserEntity) => {
     try {
       const expiresAt = this.addSecondsToDate(
         new Date(),
