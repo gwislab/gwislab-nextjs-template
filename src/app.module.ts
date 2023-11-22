@@ -15,6 +15,9 @@ import { HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { PubSub } from 'graphql-subscriptions';
 import { ResolverModule } from 'resources/resolvers/index.module';
 import { ApiModule } from 'resources/apis/index.module';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { GlobalInterceptor } from 'interceptors';
+import { GlobalParamsValidator } from 'pipes';
 
 const langOptions = ['lang', 'Accept-Language', 'language'];
 
@@ -59,6 +62,9 @@ const pubsub = new PubSub();
           const lang = langOptions.find((option) => ctx.req?.headers?.[option]);
           locale = ctx.req.headers[lang];
         }
+
+        console.log({ locale });
+
         // if (!locale) {
         //   throw new Error('Missing Header: `gwislab-user-locale`');
         // }
@@ -85,6 +91,16 @@ const pubsub = new PubSub();
     RepositoryModule,
     UtilsModule,
     ApiModule,
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: GlobalParamsValidator,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: GlobalInterceptor,
+    },
   ],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 {
-  "passwordNotMatch": "confirm password and password must be the same",
+  "passwordNotMatch": "le mot de passe de confirmation et le mot de passe doivent être identiques",
   "termsAndConditionRequired": "l'acceptation des termes et conditions est requise avant de poursuivre",
   "userAlreadyExit": "user already exist",
   "userNotFound": "utilisateur non trouvé",

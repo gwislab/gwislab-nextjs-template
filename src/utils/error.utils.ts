@@ -20,20 +20,20 @@ export class AppErrorUtils {
   ) {
     switch (statusCode) {
       case HttpStatus.BAD_REQUEST:
-        throw new BadRequestException(this.i18n.t('errors.badRequest'), error);
+        throw new BadRequestException(error, this.i18n.t('errors.badRequest'));
       case HttpStatus.NOT_FOUND:
-        throw new NotFoundException(this.i18n.t('errors.404'), error);
+        throw new NotFoundException(error, this.i18n.t('errors.404'));
       case HttpStatus.FORBIDDEN:
-        throw new ForbiddenException(this.i18n.t('errors.forbidden'), error);
+        throw new ForbiddenException(error, this.i18n.t('errors.forbidden'));
       case HttpStatus.UNAUTHORIZED:
         throw new UnauthorizedException(
-          this.i18n.t('errors.unauthorized'),
           error,
+          this.i18n.t('errors.unauthorized'),
         );
       case HttpStatus.TOO_MANY_REQUESTS:
         throw new RequestTimeoutException(
-          this.i18n.t('errors.tooManyRequest'),
           error,
+          this.i18n.t('errors.tooManyRequest'),
         );
 
       default: {

@@ -25,7 +25,6 @@ import { AppConfig } from 'config';
 import { UploadUtils } from 'utils';
 import { User } from '@prisma/client';
 import { AuthGuard, IsAdmin } from 'guards';
-import { ErrorsInterceptor } from 'interceptors';
 import { IRequest } from 'interfaces';
 
 @Controller('file')
@@ -154,7 +153,6 @@ export class DocumentsController {
 
   @Get('/pv/:filename/stream')
   @UseGuards(AuthGuard)
-  @UseInterceptors(ErrorsInterceptor)
   @Header('Accept-Ranges', 'bytes')
   async streamPrivateFile(
     @Param('filename') filename: string,
@@ -213,7 +211,6 @@ export class DocumentsController {
   }
 
   @Get('/pb/:filename/stream')
-  @UseInterceptors(ErrorsInterceptor)
   @Header('Accept-Ranges', 'bytes')
   async streamPublicFile(
     @Param('filename') filename: string,
@@ -273,7 +270,6 @@ export class DocumentsController {
   }
 
   @Get('/pb/:filename/serve')
-  @UseInterceptors(ErrorsInterceptor)
   async servePublicFile(
     @Param('filename') filename: string,
     @I18n() i18n: I18nContext,

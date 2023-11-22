@@ -29,12 +29,12 @@ input LoginUserInput {
 }
 
 type Mutation {
-  loginUser(loginUserInput: LoginUserInput!): UserEntity!
-  signupUser(signupUserInput: SignUpUserInput!): UserEntity!
+  loginUser(loginUserInput: LoginUserInput!): SignupUserResponse!
+  signupUser(signupUserInput: SignUpUserInput!): SignupUserResponse!
 }
 
 type Query {
-  me: UserEntity!
+  me: SignupUserResponse!
   publishChat: String!
 }
 
@@ -43,6 +43,11 @@ input SignUpUserInput {
   email: String!
   isTermsAgreed: Boolean!
   password: String!
+}
+
+type SignupUserResponse {
+  message: String!
+  payload: UserEntity!
 }
 
 type Subscription {
@@ -54,7 +59,7 @@ type UserEntity {
   country: String
   email: String!
   expiresIn: String
-  firstName: String!
+  firstName: String
   gender: EUserGender
   id: String!
   isEmailVerified: Boolean!

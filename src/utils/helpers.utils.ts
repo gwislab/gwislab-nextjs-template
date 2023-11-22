@@ -27,4 +27,16 @@ export class HelperUtils {
 
   getSecondsLeft = (date: moment.Moment) =>
     moment(date).diff(moment(), 'seconds');
+
+  static removeNulls = (obj: any) => {
+    Object.keys(obj).forEach(
+      (key) => (obj[key] == null || obj[key] == undefined) && delete obj[key],
+    );
+    return obj;
+  };
+
+  static structureError = (property: string, message: string) => ({
+    property,
+    message,
+  });
 }

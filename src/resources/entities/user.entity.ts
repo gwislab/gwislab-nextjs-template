@@ -10,7 +10,7 @@ export class UserEntity extends CommonCreateParams {
   @Field(() => String)
   email: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   firstName?: string;
 
   @Field(() => String, { nullable: true })
@@ -62,4 +62,13 @@ export class UserEntity extends CommonCreateParams {
 
   @Field(() => Boolean)
   isPhoneNumberVerified: boolean;
+}
+
+@ObjectType()
+export class SignupUserResponse {
+  @Field(() => String)
+  message: string;
+
+  @Field(() => UserEntity)
+  payload: UserEntity;
 }
