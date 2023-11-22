@@ -3,7 +3,7 @@
   "termsAndConditionRequired": "agreement to terms and conditions is required before you proceed",
   "userAlreadyExit": "user already exist",
   "userNotFound": "user not found",
-  "invalidPassword": "invalid password",
+  "invalidPassword": "invalid email or password",
   "invalidEmail": "invalid email",
   "invalidToken": "invalid token",
   "missingAuthHeader": "missing authorization header",
@@ -15,5 +15,7 @@
   "forbidden": "forbidden",
   "unauthorized": "unauthorized",
   "tooManyRequest": "too many request",
-  "somethingWentWrong": "something went wrong, please contact use at issues@gwislab.com"
+  "somethingWentWrong": "something went wrong, please contact us at issues@gwislab.com",
+  "invalidVerificationLink": "invalid verification link",
+  "verificationLinkExpired": "this verification link has expired, please go to the app and request for a new link"
 }

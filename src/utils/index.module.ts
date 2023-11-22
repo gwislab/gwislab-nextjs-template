@@ -4,7 +4,7 @@ import { AppErrorUtils } from './error.utils';
 import { HelperUtils } from './helpers.utils';
 import { UploadUtils } from './upload.utils';
 import { AuthGuardUtils } from './auth-guard.utils';
-// import { UserRepository } from 'resources/repositories';
+import { EmailUtils } from './email.utils';
 
 @Module({
   providers: [
@@ -13,7 +13,7 @@ import { AuthGuardUtils } from './auth-guard.utils';
     HelperUtils,
     UploadUtils,
     AuthGuardUtils,
-    // UserRepository,
+    EmailUtils,
   ],
   exports: [
     AppLoggerUtils,
@@ -21,7 +21,7 @@ import { AuthGuardUtils } from './auth-guard.utils';
     HelperUtils,
     UploadUtils,
     AuthGuardUtils,
+    EmailUtils,
   ],
-  // imports: [RepositoryModule],
 })
 export class UtilsModule {}

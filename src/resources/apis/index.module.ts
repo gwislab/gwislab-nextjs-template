@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DocumentsService } from './documents/documents.service';
-import { DocumentsController } from './documents/documents.controller';
+import { DocumentsController } from './documents.controller';
 import { RepositoryModule } from '../repositories/index.module';
 import { UtilsModule } from 'utils/index.module';
+import { ServiceModule } from 'resources/services/index.module';
+import { VerifyEmailController } from './verify-email';
 
 @Module({
-  controllers: [DocumentsController],
-  providers: [DocumentsService],
-  imports: [RepositoryModule, UtilsModule],
+  controllers: [DocumentsController, VerifyEmailController],
+  imports: [RepositoryModule, UtilsModule, ServiceModule],
 })
 export class ApiModule {}

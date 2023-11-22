@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Observable, of } from 'rxjs';
-import { DocumentsService } from './documents.service';
+import { DocumentsService } from '../services/documents.service';
 import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { I18n, I18nContext } from 'nestjs-i18n';
@@ -242,8 +242,6 @@ export class DocumentsController {
         document.size - 1,
       );
       const stream = createReadStream(document.fullPath, { start, end });
-
-      console.log({ range });
 
       const streamableFile = new StreamableFile(stream, {
         disposition: `inline; filename="${document.name}"`,

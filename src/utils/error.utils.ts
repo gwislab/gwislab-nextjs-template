@@ -9,15 +9,21 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { I18nService } from 'nestjs-i18n';
+import { AppLoggerUtils } from './logger.utils';
 
 @Injectable()
 export class AppErrorUtils {
-  constructor(private readonly i18n: I18nService) {}
+  constructor(
+    private readonly i18n: I18nService,
+    private readonly logger: AppLoggerUtils,
+  ) {}
 
   handler(
     error: any,
     statusCode: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
   ) {
+    this.logger.log(JSON.stringify({ error, statusCode }));
+
     switch (statusCode) {
       case HttpStatus.BAD_REQUEST:
         throw new BadRequestException(error, this.i18n.t('errors.badRequest'));

@@ -3,7 +3,11 @@ import { AppLoggerUtils } from '../../utils/logger.utils';
 import { User } from '@prisma/client';
 import { AppErrorUtils } from 'utils';
 import { prisma } from 'lib';
-import { GetUserParams, SaveUserDetailsParams } from 'resources/dtos';
+import {
+  GetUserParams,
+  SaveUserDetailsParams,
+  UpdateUserDetailsParams,
+} from 'resources/dtos';
 
 @Injectable()
 export class UserRepository {
@@ -25,6 +29,17 @@ export class UserRepository {
   getUserByFilter = async (where: GetUserParams): Promise<User> => {
     try {
       return await prisma.user.findFirst({ where });
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  updateUserDetails = async ({
+    id,
+    data,
+  }: UpdateUserDetailsParams): Promise<User> => {
+    try {
+      return await prisma.user.update({ where: { id }, data });
     } catch (error) {
       throw this.error.handler(error);
     }

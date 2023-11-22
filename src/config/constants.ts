@@ -1,1 +1,3 @@
-export const Constants = {};
+export const ErrorCode = {
+  expiredToken: 'TokenExpiredError',
+};

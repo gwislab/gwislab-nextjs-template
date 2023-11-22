@@ -3,7 +3,7 @@
   "termsAndConditionRequired": "l'acceptation des termes et conditions est requise avant de poursuivre",
   "userAlreadyExit": "user already exist",
   "userNotFound": "utilisateur non trouvé",
-  "invalidPassword": "mot de passe invalide",
+  "invalidPassword": "email au mot de passe invalide",
   "invalidEmail": "email invalide",
   "invalidToken": "jeton invalide",
   "missingAuthHeader": "En-tête d'autorisation manquante",
@@ -15,5 +15,7 @@
   "fieldRequired": "{field} obligatoire",
   "unauthorized": "unauthorized",
   "tooManyRequest": "trop de demandes",
-  "somethingWentWrong": "Quelque chose s'est mal passé, veuillez nous contacter à l'adresse issues@gwislab.com"
+  "somethingWentWrong": "Quelque chose s'est mal passé, veuillez nous contacter à l'adresse issues@gwislab.com",
+  "invalidVerificationLink": "lien de vérification non valide, le lien a peut-être expiré",
+  "verificationLinkExpired": "Ce lien de vérification a expiré, veuillez vous rendre sur l'application et demander un nouveau lien."
 }

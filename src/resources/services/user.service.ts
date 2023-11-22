@@ -6,9 +6,16 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../repositories/user.repository';
 import { AppErrorUtils } from '../../utils/error.utils';
 import * as moment from 'moment';
-import { I18nService } from 'nestjs-i18n';
 import { HelperUtils } from 'utils';
 import { IGetJwtPayload, IJwtPayload, IRequest } from 'interfaces';
+import { emailTemplates } from 'assets/emails';
+import { I18nContext } from 'nestjs-i18n';
+import { EmailUtils } from 'utils/email.utils';
+import { cwd } from 'process';
+import { ErrorCode } from 'config';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 @Injectable()
 export class UserService {
@@ -18,12 +25,15 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
     private readonly utils: HelperUtils,
-    private readonly i18n: I18nService,
+    private readonly emailUtils: EmailUtils,
   ) {
     this.logger.setContext(UserService.name);
   }
 
-  signup = async (data: SignUpUserInput): Promise<SignupUserResponse> => {
+  signup = async (
+    data: SignUpUserInput,
+    i18n: I18nContext,
+  ): Promise<SignupUserResponse> => {
     try {
       const userExist = await this.userRepository.getUserByFilter({
         email: data.email,
@@ -31,7 +41,7 @@ export class UserService {
 
       if (userExist) {
         throw this.error.handler(
-          this.i18n.t('errors.userAlreadyExit'),
+          i18n.t('errors.userAlreadyExit'),
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -44,8 +54,22 @@ export class UserService {
       const payload = { userId: user.id, email: user.email };
       const token = await this.jwtService.signAsync(payload);
 
+      const subject = i18n.t('email.newSignupSubject');
+
+      const { verificationLink, expiresAt } =
+        await this.utils.generateEmailLink(user);
+
+      const html = emailTemplates.newSignup.getTemplates[i18n.lang]({
+        subject,
+        username: data.email,
+        verificationLink,
+        expiresAt,
+      });
+
+      await this.emailUtils.sendEmail({ to: data.email, subject, html });
+
       return {
-        message: this.i18n.t('success.signupEmailSent'),
+        message: i18n.t('success.signupEmailSent'),
         payload: {
           ...user,
           token,
@@ -56,7 +80,10 @@ export class UserService {
     }
   };
 
-  login = async (data: LoginUserInput): Promise<SignupUserResponse> => {
+  login = async (
+    data: LoginUserInput,
+    i18n: I18nContext,
+  ): Promise<SignupUserResponse> => {
     try {
       const user = await this.userRepository.getUserByFilter({
         email: data.email,
@@ -64,7 +91,7 @@ export class UserService {
 
       if (!user) {
         throw this.error.handler(
-          this.i18n.t('errors.userNotFound'),
+          i18n.t('errors.userNotFound'),
           HttpStatus.NOT_FOUND,
         );
       }
@@ -76,7 +103,7 @@ export class UserService {
         }))
       ) {
         throw this.error.handler(
-          this.i18n.t('errors.invalidPassword'),
+          i18n.t('errors.invalidPassword'),
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -85,7 +112,7 @@ export class UserService {
       const token = await this.jwtService.signAsync(payload);
 
       return {
-        message: this.i18n.t('success.success'),
+        message: i18n.t('success.success'),
         payload: {
           ...user,
           token,
@@ -96,7 +123,10 @@ export class UserService {
     }
   };
 
-  getMe = async (userId: string): Promise<SignupUserResponse> => {
+  getMe = async (
+    userId: string,
+    i18n: I18nContext,
+  ): Promise<SignupUserResponse> => {
     try {
       const user = await this.userRepository.getUserByFilter({
         id: userId,
@@ -104,13 +134,13 @@ export class UserService {
 
       if (!user) {
         throw this.error.handler(
-          this.i18n.t('errors.userNotFound'),
+          i18n.t('errors.userNotFound'),
           HttpStatus.NOT_FOUND,
         );
       }
 
       return {
-        message: this.i18n.t('success.success'),
+        message: i18n.t('success.success'),
         payload: user,
       };
     } catch (error) {
@@ -132,6 +162,62 @@ export class UserService {
       }
       return { token, expiresIn };
     } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  verifyEmail = async (token: string, i18n: I18nContext) => {
+    try {
+      if (!token) {
+        throw this.error.handler(
+          i18n.t('errors.missingAuthHeader'),
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      const payload = await this.jwtService.verify(token);
+
+      if (!payload) {
+        throw this.error.handler(
+          i18n.t('errors.invalidVerificationLink'),
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      const user = await this.userRepository.getUserByFilter({
+        id: payload.userId,
+      });
+
+      if (!user) {
+        throw this.error.handler(
+          i18n.t('errors.invalidVerificationLink'),
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      await this.userRepository.updateUserDetails({
+        id: user.id,
+        data: { isEmailVerified: true },
+      });
+
+      const fullPath = path.join(
+        cwd(),
+        './src/assets/emails/html/',
+        user.locale.toLowerCase(),
+        '/email_verified.html',
+      );
+
+      return {
+        status: HttpStatus.OK,
+        data: fullPath,
+      };
+    } catch (error) {
+      if (error?.name === ErrorCode.expiredToken) {
+        throw this.error.handler(
+          i18n.t('errors.verificationLinkExpired'),
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
       throw this.error.handler(error);
     }
   };

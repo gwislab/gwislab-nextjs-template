@@ -63,12 +63,6 @@ const pubsub = new PubSub();
           locale = ctx.req.headers[lang];
         }
 
-        console.log({ locale });
-
-        // if (!locale) {
-        //   throw new Error('Missing Header: `gwislab-user-locale`');
-        // }
-
         return {
           ...ctx,
           locale,

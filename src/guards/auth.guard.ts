@@ -5,13 +5,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
+
 import { AppErrorUtils, AuthGuardUtils } from 'utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly i18n: I18nService,
     private readonly error: AppErrorUtils,
     private readonly authGuardUtils: AuthGuardUtils,
   ) {}
@@ -23,10 +22,7 @@ export class AuthGuard implements CanActivate {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      throw this.error.handler(
-        this.i18n.t('errors.sessionExpired'),
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw this.error.handler('sessionExpired', HttpStatus.UNAUTHORIZED);
     }
     return true;
   }
