@@ -58,6 +58,7 @@ type UserEntity {
   firstName: String
   gender: EUserGender
   id: String!
+  isAccountSetup: Boolean!
   isEmailVerified: Boolean!
   isPhoneNumberVerified: Boolean!
   isTermsAgreed: Boolean!

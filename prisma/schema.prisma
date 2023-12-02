@@ -51,6 +51,7 @@ model User {
   userRole     EUserRole     @default(CLIENT) @map("user_role")
 
   isEmailVerified       Boolean @default(false) @map("email_verified")
+  isAccountSetup        Boolean @default(false) @map("is_account_setup")
   isPhoneNumberVerified Boolean @default(false) @map("is_phone_number_verified")
   isTermsAgreed         Boolean @default(false) @map("is_terms_agreed")
 

@@ -62,6 +62,9 @@ export class UserEntity extends CommonCreateParams {
 
   @Field(() => Boolean)
   isPhoneNumberVerified: boolean;
+
+  @Field(() => Boolean)
+  isAccountSetup: boolean;
 }
 
 @ObjectType()

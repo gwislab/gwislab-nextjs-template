@@ -3,6 +3,7 @@ import * as nodemailer from 'nodemailer';
 import { Injectable } from '@nestjs/common';
 import { AppConfig } from 'config';
 import { AppLoggerUtils } from './logger.utils';
+import config from 'config/config';
 
 @Injectable()
 export class EmailUtils {
@@ -10,6 +11,9 @@ export class EmailUtils {
     this.logger.setContext(EmailUtils.name);
   }
   sendEmail = async (params: { to: string; html: string; subject: string }) => {
+    if (config.isDevEnv) {
+      return true;
+    }
     try {
       const host = AppConfig.emailHost,
         port = AppConfig.emailPort,
