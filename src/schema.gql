@@ -53,6 +53,8 @@ type Subscription {
 type UserEntity {
   address: String
   country: String
+  createdAt: String!
+  createdBy: String!
   email: String!
   expiresIn: String
   firstName: String
@@ -70,6 +72,8 @@ type UserEntity {
   signupMethod: ESignUpMethod!
   state: String
   token: String
+  updatedAt: String!
+  updatedBy: String!
   userRole: EUserRole!
   zip: String
 }
