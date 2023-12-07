@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { AppErrorUtils } from 'utils';
 import { prisma } from 'lib';
 import {
-  GetUserParams,
+  FilterUserParams,
   SaveUserDetailsParams,
   UpdateUserDetailsParams,
 } from 'resources/dtos';
@@ -26,7 +26,7 @@ export class UserRepository {
     }
   };
 
-  getUserByFilter = async (where: GetUserParams): Promise<User> => {
+  findUserByFilter = async (where: FilterUserParams): Promise<User> => {
     try {
       return await prisma.user.findFirst({ where });
     } catch (error) {

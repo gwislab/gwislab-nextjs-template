@@ -1,6 +1,6 @@
-import { CommonCreateParams } from 'resources/dtos';
+import { CommonEntityParams } from 'resources/dtos';
 
-export class ServerDocumentEntity extends CommonCreateParams {
+export class ServerDocumentEntity extends CommonEntityParams {
   id: string;
   name?: string;
   url?: string;

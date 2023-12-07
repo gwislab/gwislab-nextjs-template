@@ -1,9 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { ELocale, ESignUpMethod, EUserGender, EUserRole } from '@prisma/client';
-import { CommonCreateParams } from 'resources/dtos';
+import { CommonEntityParams } from 'resources/dtos';
 
 @ObjectType()
-export class UserEntity extends CommonCreateParams {
+export class UserEntity extends CommonEntityParams {
   @Field(() => String)
   id: string;
 

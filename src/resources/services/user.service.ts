@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { AppLoggerUtils } from '../../utils/logger.utils';
-import { SignUpUserInput, LoginUserInput } from '../dtos/user-auth.input';
+import { SignUpUserParams, LoginUserParams } from '../dtos/user-auth.input';
 import { UserResponse, UserEntity } from '../entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../repositories/user.repository';
@@ -31,11 +31,11 @@ export class UserService {
   }
 
   signup = async (
-    data: SignUpUserInput,
+    data: SignUpUserParams,
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const userExist = await this.userRepository.getUserByFilter({
+      const userExist = await this.userRepository.findUserByFilter({
         email: data.email,
       });
 
@@ -85,7 +85,7 @@ export class UserService {
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const userExist = await this.userRepository.getUserByFilter({
+      const userExist = await this.userRepository.findUserByFilter({
         email: user.email,
       });
 
@@ -121,11 +121,11 @@ export class UserService {
   };
 
   login = async (
-    data: LoginUserInput,
+    data: LoginUserParams,
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const user = await this.userRepository.getUserByFilter({
+      const user = await this.userRepository.findUserByFilter({
         email: data.email,
       });
 
@@ -163,9 +163,9 @@ export class UserService {
     }
   };
 
-  getMe = async (userId: string, i18n: I18nContext): Promise<UserResponse> => {
+  findMe = async (userId: string, i18n: I18nContext): Promise<UserResponse> => {
     try {
-      const user = await this.userRepository.getUserByFilter({
+      const user = await this.userRepository.findUserByFilter({
         id: userId,
       });
 
@@ -220,7 +220,7 @@ export class UserService {
         );
       }
 
-      const user = await this.userRepository.getUserByFilter({
+      const user = await this.userRepository.findUserByFilter({
         id: payload.userId,
       });
 

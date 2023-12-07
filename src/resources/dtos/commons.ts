@@ -1,25 +1,25 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class CommonCreateParams {
-  @Field(() => String)
+export class CommonEntityParams {
+  @Field(() => String, { nullable: true })
   createdBy?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   updatedBy?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   updatedAt?: Date;
 }
 
-export class IPaginateCommonsParams {
-  page?: number;
-  limit?: number;
-}
+@InputType()
+export class CommonCreateParams {
+  @Field(() => String, { nullable: true })
+  createdBy?: string;
 
-export interface CommonFilterParams extends Partial<CommonCreateParams> {
-  id?: string;
+  @Field(() => String, { nullable: true })
+  updatedBy?: string;
 }

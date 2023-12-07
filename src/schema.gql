@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type DoormotQuestionEntity {
+  createdAt: String
+  createdBy: String
+  extraData: JSONObject!
+  id: String!
+  text: String!
+  updatedAt: String
+  updatedBy: String
+}
+
 enum ELocale {
   EN
   FR
@@ -23,38 +33,86 @@ enum EUserRole {
   CLIENT
 }
 
-input LoginUserInput {
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+input LoginUserParams {
   email: String!
   password: String!
 }
 
+type ManyDoormotQuestionResponse {
+  message: String!
+  payload: [DoormotQuestionEntity!]!
+}
+
 type Mutation {
-  loginUser(loginUserInput: LoginUserInput!): UserResponse!
+  createManyDoormotQuestions(createManyDoormotQuestionsInput: [SaveDoormotQuestionParams!]!): ManyDoormotQuestionResponse!
+  loginUser(loginUserInput: LoginUserParams!): UserResponse!
+  removeManyDoormotQuestion(id: String!): SingleDoormotQuestionResponse!
   resendEmailVerificationLink: UserResponse!
-  signupUser(signupUserInput: SignUpUserInput!): UserResponse!
+  signupUser(signupUserInput: SignUpUserParams!): UserResponse!
+  updateDoormotQuestion(updateDoormotQuestionInput: UpdateDoormotQuestionParams!): SingleDoormotQuestionResponse!
+}
+
+input PaginateDoormotQuestionsParams {
+  createdBy: String
+  extraData: JSONObject
+  id: String
+  limit: Int
+  page: Int
+  text: String
+  updatedBy: String
 }
 
 type Query {
+  findManyDoormotQuestions(paginateDoormotQuestionsInput: PaginateDoormotQuestionsParams!): ManyDoormotQuestionResponse!
   me: UserResponse!
   publishChat: String!
 }
 
-input SignUpUserInput {
+input SaveDoormotQuestionParams {
+  createdBy: String
+  extraData: JSONObject!
+  text: String!
+  updatedBy: String
+}
+
+input SignUpUserParams {
   cpassword: String!
   email: String!
   isTermsAgreed: Boolean!
   password: String!
 }
 
+type SingleDoormotQuestionResponse {
+  message: String!
+  payload: DoormotQuestionEntity!
+}
+
 type Subscription {
   addChat: String!
+}
+
+input UpdateDoormotQuestionParams {
+  data: UpdateDoormotQuestionParamsData!
+  id: String!
+}
+
+input UpdateDoormotQuestionParamsData {
+  createdBy: String
+  extraData: JSONObject
+  text: String
+  updatedBy: String
 }
 
 type UserEntity {
   address: String
   country: String
-  createdAt: String!
-  createdBy: String!
+  createdAt: String
+  createdBy: String
   email: String!
   expiresIn: String
   firstName: String
@@ -72,8 +130,8 @@ type UserEntity {
   signupMethod: ESignUpMethod!
   state: String
   token: String
-  updatedAt: String!
-  updatedBy: String!
+  updatedAt: String
+  updatedBy: String
   userRole: EUserRole!
   zip: String
 }

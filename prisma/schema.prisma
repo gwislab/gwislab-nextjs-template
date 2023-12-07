@@ -55,9 +55,10 @@ model User {
   isPhoneNumberVerified Boolean @default(false) @map("is_phone_number_verified")
   isTermsAgreed         Boolean @default(false) @map("is_terms_agreed")
 
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime?
+  createdAt                 DateTime                    @default(now()) @map("created_at")
+  updatedAt                 DateTime                    @updatedAt @map("updated_at")
+  deletedAt                 DateTime?
+  DoormotQuestionUserAnswer DoormotQuestionUserAnswer[]
 
   @@map("user")
 }
@@ -85,4 +86,39 @@ model ServerDocument {
   deletedAt DateTime? @map("deleted_at")
 
   @@map("server_document")
+}
+
+model DoormotQuestion {
+  id        String  @id @default(uuid())
+  text      String?
+  extraData Json?   @default("{}") @map("extra_data")
+
+  createdBy String?  @map("created_by")
+  updatedBy String?  @map("updated_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt                 DateTime?                   @map("deleted_at")
+  DoormotQuestionUserAnswer DoormotQuestionUserAnswer[]
+
+  @@map("doormot_question")
+}
+
+model DoormotQuestionUserAnswer {
+  id                String  @id @default(uuid())
+  text              String?
+  extraData         Json?   @default("{}") @map("extra_data")
+  userId            String  @map("user_id")
+  doormotQuestionId String  @map("doormot_question_id")
+
+  doormotQuestion DoormotQuestion @relation(fields: [doormotQuestionId], references: [id])
+  user            User            @relation(fields: [userId], references: [id])
+  createdBy       String?         @map("created_by")
+  updatedBy       String?         @map("updated_by")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("doormot_question_user_answer")
 }

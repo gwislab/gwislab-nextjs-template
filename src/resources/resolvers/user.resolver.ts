@@ -13,7 +13,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { UserResponse, UserEntity } from 'resources/entities';
 import { UserService } from 'resources/services';
 import { AppErrorUtils, AppLoggerUtils } from 'utils';
-import { LoginUserInput, SignUpUserInput } from 'resources/dtos';
+import { LoginUserParams, SignUpUserParams } from 'resources/dtos';
 import { AuthGuard } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
@@ -31,7 +31,7 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   signupUser(
     @I18n() i18n: I18nContext,
-    @Args('signupUserInput') signupUserInput: SignUpUserInput,
+    @Args('signupUserInput') signupUserInput: SignUpUserParams,
   ) {
     try {
       return this.userService.signup(signupUserInput, i18n);
@@ -57,7 +57,7 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   loginUser(
     @I18n() i18n: I18nContext,
-    @Args('loginUserInput') loginUserInput: LoginUserInput,
+    @Args('loginUserInput') loginUserInput: LoginUserParams,
   ) {
     try {
       return this.userService.login(loginUserInput, i18n);
@@ -71,7 +71,7 @@ export class UserResolver {
   me(@I18n() i18n: I18nContext, @Context() { req }: AppContext) {
     try {
       const { user } = req;
-      return this.userService.getMe(user.id, i18n);
+      return this.userService.findMe(user.id, i18n);
     } catch (error) {
       throw this.error.handler(error);
     }

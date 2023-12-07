@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ServerDocument } from '@prisma/client';
 import {
-  GetServerDocumentParams,
+  FilterServerDocumentParams,
   SaveServerDocumentParams,
 } from 'resources/dtos';
 import { AppErrorUtils, AppLoggerUtils } from 'utils';
@@ -27,8 +27,8 @@ export class ServerDocumentRepository {
     }
   };
 
-  getServerDocumentByFilter = async (
-    where: GetServerDocumentParams,
+  findServerDocumentByFilter = async (
+    where: FilterServerDocumentParams,
   ): Promise<ServerDocument> => {
     try {
       return await prisma.serverDocument.findFirst({ where });

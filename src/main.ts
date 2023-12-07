@@ -9,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   prisma.$use(async (params, next) => {
+    console.log({ params });
     // Check incoming query type
     if (params.action == 'delete') {
       // Delete queries

@@ -2,7 +2,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import { IsEmail } from '@nestjs/class-validator';
 
 @InputType()
-export class SignUpUserInput {
+export class SignUpUserParams {
   @Field(() => String)
   @IsEmail(undefined, { message: 'invalidEmail' })
   email: string;
@@ -18,7 +18,7 @@ export class SignUpUserInput {
 }
 
 @InputType()
-export class LoginUserInput {
+export class LoginUserParams {
   @Field(() => String)
   @IsEmail(undefined, { message: 'invalidEmail' })
   email: string;
