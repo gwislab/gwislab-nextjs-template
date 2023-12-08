@@ -11,6 +11,12 @@ export class UserEntity extends CommonEntityParams {
   email: string;
 
   @Field(() => String, { nullable: true })
+  dateOfBirth?: string;
+
+  @Field(() => String, { nullable: true })
+  countryCode?: string;
+
+  @Field(() => String, { nullable: true })
   firstName?: string;
 
   @Field(() => String, { nullable: true })

@@ -2,5 +2,6 @@
     "success": "opération réussie",
     "signupEmailSent": "Merci de vous être inscrit, un lien de vérification est envoyés à votre adresse électronique",
     "verificationLinkResent": "Veuillez vérifier votre courrier électronique, un lien de vérification est envoyé à votre adresse électronique.",
-    "thankYouResponse": "Succès ! Nous vous remercions pour vos commentaires"
+    "thankYouResponse": "Succès ! Nous vous remercions pour vos commentaires",
+    "updated": "Mise à jour réussie"
 }

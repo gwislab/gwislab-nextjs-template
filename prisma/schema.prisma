@@ -41,6 +41,8 @@ model User {
   phoneNumber String? @unique @map("phone_number")
   address     String?
   country     String?
+  countryCode String? @map("country_code")
+  dateOfBirth String? @map("date_of_birth")
   state       String?
   zip         String?
   profileUrl  String? @map("profile_url")

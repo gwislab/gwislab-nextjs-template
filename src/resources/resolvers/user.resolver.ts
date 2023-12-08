@@ -13,7 +13,11 @@ import { PubSub } from 'graphql-subscriptions';
 import { UserResponse, UserEntity } from 'resources/entities';
 import { UserService } from 'resources/services';
 import { AppErrorUtils, AppLoggerUtils } from 'utils';
-import { LoginUserParams, SignUpUserParams } from 'resources/dtos';
+import {
+  LoginUserParams,
+  SignUpUserParams,
+  UpdateUserDetailsParams,
+} from 'resources/dtos';
 import { AuthGuard } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
@@ -35,6 +39,21 @@ export class UserResolver {
   ) {
     try {
       return this.userService.signup(signupUserInput, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => UserResponse)
+  updateUserDetails(
+    @I18n() i18n: I18nContext,
+    @Args('updateUserInput') updateUserInput: UpdateUserDetailsParams,
+    @Context() { req }: AppContext,
+  ) {
+    try {
+      const { user } = req;
+      return this.userService.update(updateUserInput, user, i18n);
     } catch (error) {
       throw this.error.handler(error);
     }

@@ -34,10 +34,10 @@ export class UserRepository {
     }
   };
 
-  updateUserDetails = async ({
-    id,
-    data,
-  }: UpdateUserDetailsParams): Promise<User> => {
+  updateUserDetails = async (
+    id: string,
+    data: UpdateUserDetailsParams,
+  ): Promise<User> => {
     try {
       return await prisma.user.update({ where: { id }, data });
     } catch (error) {

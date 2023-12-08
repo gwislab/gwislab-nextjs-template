@@ -13,6 +13,7 @@ import { I18nContext } from 'nestjs-i18n';
 import { EmailUtils } from 'utils/email.utils';
 import { cwd } from 'process';
 import { ErrorCode } from 'config';
+import { UpdateUserDetailsParams } from 'resources/dtos';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
@@ -80,6 +81,21 @@ export class UserService {
     }
   };
 
+  update = async (
+    data: UpdateUserDetailsParams,
+    user: UserEntity,
+    i18n: I18nContext,
+  ): Promise<UserResponse> => {
+    try {
+      return {
+        message: i18n.t('success.updated'),
+        payload: await this.userRepository.updateUserDetails(user.id, data),
+      };
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
   resendVerificationLink = async (
     user: UserEntity,
     i18n: I18nContext,
@@ -131,7 +147,7 @@ export class UserService {
 
       if (!user) {
         throw this.error.handler(
-          i18n.t('errors.userNotFound'),
+          i18n.t('errors.invalidPassword'),
           HttpStatus.NOT_FOUND,
         );
       }
@@ -231,9 +247,8 @@ export class UserService {
         );
       }
 
-      await this.userRepository.updateUserDetails({
-        id: user.id,
-        data: { isEmailVerified: true },
+      await this.userRepository.updateUserDetails(user.id, {
+        isEmailVerified: true,
       });
 
       const fullPath = path.join(

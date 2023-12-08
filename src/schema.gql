@@ -77,6 +77,7 @@ type Mutation {
   signupUser(signupUserInput: SignUpUserParams!): UserResponse!
   updateDoormotQuestion(updateDoormotQuestionInput: UpdateDoormotQuestionParams!): SingleDoormotQuestionResponse!
   updateDoormotQuestionResponse(updateDoormotQuestionResponseInput: UpdateDoormotQuestionResponseParams!): SingleDoormotQuestionResponseResponse!
+  updateUserDetails(updateUserInput: UpdateUserDetailsParams!): UserResponse!
 }
 
 input PaginateDoormotQuestionResponsesParams {
@@ -159,11 +160,36 @@ input UpdateDoormotQuestionResponseParamsData {
   text: String
 }
 
+input UpdateUserDetailsParams {
+  address: String
+  country: String
+  countryCode: String
+  dateOfBirth: String
+  firstName: String
+  gender: EUserGender
+  isAccountSetup: Boolean
+  isEmailVerified: Boolean
+  isPhoneNumberVerified: Boolean
+  isTermsAgreed: Boolean
+  lastName: String
+  locale: ELocale
+  name: String
+  phoneNumber: String
+  profileUrl: String
+  signupMethod: ESignUpMethod
+  state: String
+  token: String
+  userRole: EUserRole
+  zip: String
+}
+
 type UserEntity {
   address: String
   country: String
+  countryCode: String
   createdAt: String
   createdBy: String
+  dateOfBirth: String
   email: String!
   expiresIn: String
   firstName: String
