@@ -62,7 +62,8 @@ input PaginateDoormotQuestionsParams {
   id: String
   limit: Int
   page: Int
-  text: String
+  textEn: String
+  textFr: String
 }
 
 type Query {
@@ -73,7 +74,8 @@ type Query {
 
 input SaveDoormotQuestionParams {
   extraData: JSONObject
-  text: String!
+  textEn: String!
+  textFr: String!
 }
 
 input SignUpUserParams {
@@ -99,7 +101,8 @@ input UpdateDoormotQuestionParams {
 
 input UpdateDoormotQuestionParamsData {
   extraData: JSONObject
-  text: String
+  textEn: String
+  textFr: String
 }
 
 type UserEntity {

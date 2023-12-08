@@ -1,4 +1,12 @@
-import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql';
+import {
+  Resolver,
+  Mutation,
+  Args,
+  Query,
+  Context,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import {
   ManyDoormotQuestionResponse,
@@ -94,6 +102,15 @@ export class DoormotQuestionResolver {
     try {
       const { user } = req;
       return this.doormotQuestionService.removeQuestion(id, user, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @ResolveField(() => String)
+  text(@I18n() i18n: I18nContext, @Parent() parent: DoormotQuestionEntity) {
+    try {
+      return i18n.lang === 'fr' ? parent.textFr : parent.textEn;
     } catch (error) {
       throw this.error.handler(error);
     }

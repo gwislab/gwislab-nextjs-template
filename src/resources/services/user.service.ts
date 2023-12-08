@@ -208,7 +208,7 @@ export class UserService {
       if (!token) {
         throw this.error.handler(
           i18n.t('errors.missingAuthHeader'),
-          HttpStatus.UNAUTHORIZED,
+          HttpStatus.BAD_GATEWAY,
         );
       }
       const payload = await this.jwtService.verify(token);

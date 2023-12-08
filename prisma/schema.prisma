@@ -89,9 +89,10 @@ model ServerDocument {
 }
 
 model DoormotQuestion {
-  id        String  @id @default(uuid())
-  text      String?
-  extraData Json?   @default("{}") @map("extra_data")
+  id        String @id @default(uuid())
+  textEn    String
+  textFr    String
+  extraData Json?  @default("{}") @map("extra_data")
 
   createdBy String?  @map("created_by")
   updatedBy String?  @map("updated_by")
@@ -101,12 +102,13 @@ model DoormotQuestion {
   deletedAt                 DateTime?                   @map("deleted_at")
   DoormotQuestionUserAnswer DoormotQuestionUserAnswer[]
 
+  @@unique([textEn, textFr])
   @@map("doormot_question")
 }
 
 model DoormotQuestionUserAnswer {
   id                String @id @default(uuid())
-  text              String @unique
+  text              String
   extraData         Json?  @default("{}") @map("extra_data")
   userId            String @map("user_id")
   doormotQuestionId String @map("doormot_question_id")

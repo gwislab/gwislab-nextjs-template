@@ -8,10 +8,13 @@ export class DoormotQuestionEntity extends CommonEntityParams {
   id: string;
 
   @Field(() => String)
-  text: string;
+  text?: string;
 
   @Field(() => GraphQLJSONObject)
   extraData?: any;
+
+  textEn: string;
+  textFr: string;
 }
 
 @ObjectType()

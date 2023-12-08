@@ -32,7 +32,7 @@ export class AuthGuardUtils {
     if (!token) {
       throw this.error.handler(
         this.i18n.t('errors.missingAuthHeader'),
-        HttpStatus.UNAUTHORIZED,
+        HttpStatus.BAD_GATEWAY,
       );
     }
 

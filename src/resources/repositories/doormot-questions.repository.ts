@@ -40,15 +40,15 @@ export class DoormotQuestionRepository {
   };
 
   getManyDoormotQuestionByFilter = async ({
-    page,
-    limit,
+    page = 1,
+    limit = 15,
     ...where
   }: PaginateDoormotQuestionsParams) => {
     try {
       return await prisma.doormotQuestion.findMany({
         where,
-        skip: typeof page == 'number' ? page * limit : undefined,
-        take: typeof page == 'number' ? limit : undefined,
+        skip: (page - 1) * limit,
+        take: limit,
         orderBy: {
           createdAt: 'desc',
         },
@@ -60,10 +60,13 @@ export class DoormotQuestionRepository {
 
   updateDoormotQuestion = async ({
     id,
-    ...data
+    data,
   }: UpdateDoormotQuestionParams): Promise<DoormotQuestion> => {
     try {
-      return await prisma.doormotQuestion.update({ data, where: { id } });
+      return await prisma.doormotQuestion.update({
+        data: { ...data },
+        where: { id },
+      });
     } catch (error) {
       throw this.error.handler(error);
     }

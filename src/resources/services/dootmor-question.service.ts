@@ -32,10 +32,12 @@ export class DoormotQuestionService {
   ): Promise<ManyDoormotQuestionResponse> => {
     try {
       const createdQuestions: DoormotQuestionEntity[] = [];
+
       for (const question of data) {
         const foundQuestion =
           await this.doormotQuestionRepo.getDoormotQuestionByFilter({
-            text: question.text,
+            textEn: question.textEn,
+            textFr: question.textFr,
           });
 
         if (foundQuestion) {

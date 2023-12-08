@@ -26,32 +26,30 @@ export class GlobalParamsValidator implements PipeTransform {
         throw new BadRequestException('Validation failed');
       }
 
-      value = HelperUtils.removeNulls(value);
+      value = this.validateAppInputs(value);
 
-      console.log({ value });
-
-      if (metatype.toString().includes('SignUpUserParams')) {
-        return this.validateSignupInput(value);
-      }
-
-      return value;
+      return HelperUtils.removeNulls(value);
     } catch (error) {
-      console.log({ error });
+      throw error;
     }
   }
 
-  validateSignupInput = (
+  validateAppInputs = (
     value: SignUpUserParams & PaginateDoormotQuestionsParams,
   ) => {
-    if (value.cpassword && value.cpassword !== value.password) {
+    if (value?.id) {
+      return value;
+    }
+
+    if (value?.cpassword && value?.cpassword !== value?.password) {
       throw new BadRequestException(
         HelperUtils.structureError('password', 'passwordNotMatch'),
       );
     }
 
     if (
-      typeof value.isTermsAgreed == 'boolean' &&
-      value.isTermsAgreed == false
+      typeof value?.isTermsAgreed === 'boolean' &&
+      value?.isTermsAgreed == false
     ) {
       throw new BadRequestException(
         HelperUtils.structureError(
@@ -62,20 +60,20 @@ export class GlobalParamsValidator implements PipeTransform {
     }
 
     if (
-      (value.page && value.page && value.page <= 0) ||
-      (value.limit && value.limit < 0)
+      (value?.page && value?.page && value?.page <= 0) ||
+      (value?.limit && value?.limit <= 0)
     ) {
-      throw new BadRequestException('invalidPaginationValue');
+      throw new BadRequestException(
+        HelperUtils.structureError('input', 'invalidPaginationValue'),
+      );
     }
-
-    delete value.cpassword;
+    delete value?.cpassword;
 
     return value;
   };
 
   private toValidate(metatype: any): boolean {
-    console.log({ metatype }, metatype.toString());
-
+    // metatype.toString().includes('SignUpUserParams')
     const types: any[] = [String, Boolean, Number, Object, I18nContext];
     return !types.includes(metatype);
   }

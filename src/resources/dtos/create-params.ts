@@ -10,7 +10,10 @@ export interface SaveServerDocumentParams
 @InputType()
 export class SaveDoormotQuestionParams extends CommonCreateParams {
   @Field(() => String)
-  text: string;
+  textEn: string;
+
+  @Field(() => String)
+  textFr: string;
 
   @Field(() => GraphQLJSONObject, { nullable: true })
   extraData?: any;

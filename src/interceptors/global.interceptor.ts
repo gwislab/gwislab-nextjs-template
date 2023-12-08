@@ -24,6 +24,8 @@ export class GlobalInterceptor implements NestInterceptor {
         const error = err.response.error;
         let foundError;
 
+        console.log({ message, property, error, err });
+
         if (typeof message == 'object' && message?.length) {
           foundError = message.map((err) => {
             const message = this.i18n.t(`errors.${err.message}`);
