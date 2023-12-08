@@ -405,3 +405,4 @@ dist
 package-lock.json
 yarn.lock
 .vscode
+uploads
