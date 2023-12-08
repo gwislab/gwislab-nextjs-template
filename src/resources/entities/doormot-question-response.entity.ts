@@ -15,8 +15,8 @@ export class DoormotQuestionResponseEntity extends CommonEntityParams {
   @Field(() => String)
   userId: string;
 
-  @Field(() => String)
-  text: string;
+  @Field(() => String, { nullable: true })
+  text?: string;
 
   @Field(() => GraphQLJSONObject)
   extraData?: any;

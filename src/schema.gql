@@ -19,7 +19,7 @@ type DoormotQuestionResponseEntity {
   doormotQuestionId: String!
   extraData: JSONObject!
   id: String!
-  text: String!
+  text: String
   updatedAt: String
   updatedBy: String
   user: UserEntity
@@ -113,7 +113,7 @@ input SaveDoormotQuestionParams {
 input SaveDoormotQuestionResponseParams {
   doormotQuestionId: String!
   extraData: JSONObject
-  text: String!
+  text: String
 }
 
 input SignUpUserParams {

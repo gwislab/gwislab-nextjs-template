@@ -15,7 +15,7 @@ import {
   SaveDoormotQuestionResponseParams,
   UpdateDoormotQuestionResponseParams,
 } from 'resources/dtos';
-import { IsAdmin } from 'guards';
+import { AuthGuard, IsAdmin } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import {
@@ -40,7 +40,7 @@ export class DoormotQuestionResponseResolver {
     this.logger.setContext(DoormotQuestionResponseResolver.name);
   }
 
-  @UseGuards(IsAdmin)
+  @UseGuards(AuthGuard)
   @Mutation(() => ManyDoormotQuestionResponseResponse)
   createManyDoormotQuestionResponses(
     @I18n() i18n: I18nContext,

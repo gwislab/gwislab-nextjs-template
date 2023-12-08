@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AppErrorUtils } from './error.utils';
 import { ELocale, EUserRole } from '@prisma/client';
 import { AppContext } from 'interfaces';
+import { prisma } from 'lib';
 
 @Injectable()
 export class AuthGuardUtils {
@@ -26,7 +27,7 @@ export class AuthGuardUtils {
     role?: EUserRole[],
   ): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
-    const { req, prisma }: AppContext = ctx.getContext();
+    const { req }: AppContext = ctx.getContext();
     const token = this.extractTokenFromHeader(req);
 
     if (!token) {
@@ -84,9 +85,11 @@ export class AuthGuardUtils {
       }
       req.token = token;
     } catch (error) {
+      console.log({ error });
       if (error instanceof UnauthorizedException) {
         throw error;
       }
+
       throw this.error.handler(
         this.i18n.t('errors.sessionExpired'),
         HttpStatus.UNAUTHORIZED,

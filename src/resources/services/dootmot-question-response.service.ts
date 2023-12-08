@@ -15,6 +15,7 @@ import {
   ManyDoormotQuestionResponseResponse,
   SingleDoormotQuestionResponseResponse,
 } from 'resources/entities/doormot-question-response.entity';
+import { UserRepository } from 'resources/repositories';
 
 @Injectable()
 export class DoormotQuestionResponseService {
@@ -22,6 +23,7 @@ export class DoormotQuestionResponseService {
     private readonly logger: AppLoggerUtils,
     private readonly error: AppErrorUtils,
     private readonly doormotQuestionRepo: DoormotQuestionResponseRepository,
+    private readonly userRepo: UserRepository,
   ) {
     this.logger.setContext(DoormotQuestionResponseService.name);
   }
@@ -44,6 +46,11 @@ export class DoormotQuestionResponseService {
 
         createdUserResponse.push(createdQuestion);
       }
+
+      // await this.userRepo.updateUserDetails({
+      //   id: user.id,
+      //   data: { isAccountSetup: true },
+      // });
 
       return {
         message: i18n.t('success.thankYouResponse'),

@@ -21,8 +21,8 @@ export class SaveDoormotQuestionParams extends CommonCreateParams {
 
 @InputType()
 export class SaveDoormotQuestionResponseParams extends CommonCreateParams {
-  @Field(() => String)
-  text: string;
+  @Field(() => String, { nullable: true })
+  text?: string;
 
   @Field(() => String)
   doormotQuestionId: string;
