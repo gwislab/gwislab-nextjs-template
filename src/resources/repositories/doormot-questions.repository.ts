@@ -69,9 +69,18 @@ export class DoormotQuestionRepository {
     }
   };
 
-  deleteDoormotQuestion = async (id: string): Promise<DoormotQuestion> => {
+  deleteDoormotQuestion = async (
+    id: string,
+    updatedBy: string,
+  ): Promise<DoormotQuestion> => {
     try {
-      return await prisma.doormotQuestion.delete({ where: { id } });
+      return await prisma.doormotQuestion.update({
+        where: { id },
+        data: {
+          updatedBy,
+          deletedAt: new Date(),
+        },
+      });
     } catch (error) {
       throw this.error.handler(error);
     }

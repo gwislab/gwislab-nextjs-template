@@ -4,12 +4,12 @@ import config from './config/config';
 import prisma from './lib/prisma';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import './resources/dtos/enums';
+import { runBootstrap } from 'config/bootstrap';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   prisma.$use(async (params, next) => {
-    console.log({ params });
     // Check incoming query type
     if (params.action == 'delete') {
       // Delete queries
@@ -24,11 +24,15 @@ async function bootstrap() {
       } else {
         params.args['data'] = { deletedAt: new Date() };
       }
+    } else if (params.action === 'findFirst') {
     }
     return next(params);
   });
 
   await prisma.$connect();
+
+  runBootstrap(prisma);
+
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {

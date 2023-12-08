@@ -11,11 +11,11 @@ import { UserEntity } from 'resources/entities';
 @Injectable()
 export class HelperUtils {
   constructor(
-    private readonly error: AppErrorUtils,
-    private readonly logger: AppLoggerUtils,
-    private readonly jwtService: JwtService,
+    private readonly error?: AppErrorUtils,
+    private readonly logger?: AppLoggerUtils,
+    private readonly jwtService?: JwtService,
   ) {
-    this.logger.setContext(HelperUtils.name);
+    this.logger?.setContext(HelperUtils.name);
   }
   saltOrRounds = 10;
 

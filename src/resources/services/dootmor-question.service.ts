@@ -135,7 +135,7 @@ export class DoormotQuestionService {
       }
 
       const deletedQuestion =
-        await this.doormotQuestionRepo.deleteDoormotQuestion(id);
+        await this.doormotQuestionRepo.deleteDoormotQuestion(id, user.id);
 
       return {
         message: i18n.t('success.success'),
