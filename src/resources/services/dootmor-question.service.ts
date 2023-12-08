@@ -34,15 +34,12 @@ export class DoormotQuestionService {
       const createdQuestions: DoormotQuestionEntity[] = [];
       for (const question of data) {
         const foundQuestion =
-          await this.doormotQuestionRepo.findDoormotQuestionByFilter({
+          await this.doormotQuestionRepo.getDoormotQuestionByFilter({
             text: question.text,
           });
 
         if (foundQuestion) {
-          throw this.error.handler(
-            i18n.t('errors.questionAlreadyExists'),
-            HttpStatus.BAD_REQUEST,
-          );
+          continue;
         }
 
         const createdQuestion =
@@ -63,7 +60,7 @@ export class DoormotQuestionService {
     }
   };
 
-  findManyDoormotQuestions = async (
+  getManyDoormotQuestions = async (
     filter: PaginateDoormotQuestionsParams,
     i18n: I18nContext,
   ): Promise<ManyDoormotQuestionResponse> => {
@@ -71,9 +68,7 @@ export class DoormotQuestionService {
       return {
         message: i18n.t('success.success'),
         payload:
-          await this.doormotQuestionRepo.findManyDoormotQuestionByFilter(
-            filter,
-          ),
+          await this.doormotQuestionRepo.getManyDoormotQuestionByFilter(filter),
       };
     } catch (error) {
       throw this.error.handler(error);
@@ -87,7 +82,7 @@ export class DoormotQuestionService {
   ): Promise<SingleDoormotQuestionResponse> => {
     try {
       const foundQuestion =
-        await this.doormotQuestionRepo.findDoormotQuestionByFilter({
+        await this.doormotQuestionRepo.getDoormotQuestionByFilter({
           id,
         });
 
@@ -123,7 +118,7 @@ export class DoormotQuestionService {
   ): Promise<SingleDoormotQuestionResponse> => {
     try {
       const foundQuestion =
-        await this.doormotQuestionRepo.findDoormotQuestionByFilter({
+        await this.doormotQuestionRepo.getDoormotQuestionByFilter({
           id,
         });
 

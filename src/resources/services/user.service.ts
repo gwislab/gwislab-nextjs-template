@@ -35,7 +35,7 @@ export class UserService {
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const userExist = await this.userRepository.findUserByFilter({
+      const userExist = await this.userRepository.getUserByFilter({
         email: data.email,
       });
 
@@ -85,7 +85,7 @@ export class UserService {
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const userExist = await this.userRepository.findUserByFilter({
+      const userExist = await this.userRepository.getUserByFilter({
         email: user.email,
       });
 
@@ -125,7 +125,7 @@ export class UserService {
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
-      const user = await this.userRepository.findUserByFilter({
+      const user = await this.userRepository.getUserByFilter({
         email: data.email,
       });
 
@@ -163,9 +163,9 @@ export class UserService {
     }
   };
 
-  findMe = async (userId: string, i18n: I18nContext): Promise<UserResponse> => {
+  getMe = async (userId: string, i18n: I18nContext): Promise<UserResponse> => {
     try {
-      const user = await this.userRepository.findUserByFilter({
+      const user = await this.userRepository.getUserByFilter({
         id: userId,
       });
 
@@ -220,7 +220,7 @@ export class UserService {
         );
       }
 
-      const user = await this.userRepository.findUserByFilter({
+      const user = await this.userRepository.getUserByFilter({
         id: payload.userId,
       });
 

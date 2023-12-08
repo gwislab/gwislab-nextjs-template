@@ -9,17 +9,35 @@ import {
   PaginateDoormotQuestionsParams,
   SignUpUserParams,
 } from 'resources/dtos';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
+import { I18nContext } from 'nestjs-i18n';
 
 @Injectable()
 export class GlobalParamsValidator implements PipeTransform {
-  transform(value: any, { metatype }: ArgumentMetadata) {
-    value = HelperUtils.removeNulls(value);
+  async transform(value: any, { metatype }: ArgumentMetadata) {
+    try {
+      if (!metatype || !this.toValidate(metatype)) {
+        return value;
+      }
+      const object = plainToInstance(metatype, value);
+      const errors = await validate(object);
+      if (errors.length > 0) {
+        throw new BadRequestException('Validation failed');
+      }
 
-    if (metatype.toString().includes('SignUpUserParams')) {
-      return this.validateSignupInput(value);
+      value = HelperUtils.removeNulls(value);
+
+      console.log({ value });
+
+      if (metatype.toString().includes('SignUpUserParams')) {
+        return this.validateSignupInput(value);
+      }
+
+      return value;
+    } catch (error) {
+      console.log({ error });
     }
-
-    return value;
   }
 
   validateSignupInput = (
@@ -54,4 +72,11 @@ export class GlobalParamsValidator implements PipeTransform {
 
     return value;
   };
+
+  private toValidate(metatype: any): boolean {
+    console.log({ metatype }, metatype.toString());
+
+    const types: any[] = [String, Boolean, Number, Object, I18nContext];
+    return !types.includes(metatype);
+  }
 }

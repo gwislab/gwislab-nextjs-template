@@ -71,7 +71,7 @@ export class UserResolver {
   me(@I18n() i18n: I18nContext, @Context() { req }: AppContext) {
     try {
       const { user } = req;
-      return this.userService.findMe(user.id, i18n);
+      return this.userService.getMe(user.id, i18n);
     } catch (error) {
       throw this.error.handler(error);
     }

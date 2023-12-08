@@ -26,7 +26,7 @@ export class UserRepository {
     }
   };
 
-  findUserByFilter = async (where: FilterUserParams): Promise<User> => {
+  getUserByFilter = async (where: FilterUserParams): Promise<User> => {
     try {
       return await prisma.user.findFirst({ where });
     } catch (error) {

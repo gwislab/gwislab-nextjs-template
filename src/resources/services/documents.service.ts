@@ -39,9 +39,9 @@ export class DocumentsService {
     }
   }
 
-  async findOneServerDocument(name: string) {
+  async getOneServerDocument(name: string) {
     try {
-      const file = await this.serverDocumentRepo.findServerDocumentByFilter({
+      const file = await this.serverDocumentRepo.getServerDocumentByFilter({
         name,
       });
       if (!file || !file.isPublic) {
@@ -63,7 +63,7 @@ export class DocumentsService {
 
   async deleteServerDocument(id: string, user: User) {
     try {
-      const file = await this.serverDocumentRepo.findServerDocumentByFilter({
+      const file = await this.serverDocumentRepo.getServerDocumentByFilter({
         id,
         createdBy: user.id,
       });

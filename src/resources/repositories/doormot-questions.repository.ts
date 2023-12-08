@@ -29,7 +29,7 @@ export class DoormotQuestionRepository {
     }
   };
 
-  findDoormotQuestionByFilter = async (
+  getDoormotQuestionByFilter = async (
     where: FilterDoormotQuestionsParams,
   ): Promise<DoormotQuestion> => {
     try {
@@ -39,7 +39,7 @@ export class DoormotQuestionRepository {
     }
   };
 
-  findManyDoormotQuestionByFilter = async ({
+  getManyDoormotQuestionByFilter = async ({
     page,
     limit,
     ...where

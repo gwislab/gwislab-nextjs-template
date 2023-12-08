@@ -64,9 +64,20 @@ export class HelperUtils {
   };
 
   static removeNulls = (obj: any) => {
-    Object.keys(obj).forEach(
-      (key) => (obj[key] == null || obj[key] == undefined) && delete obj[key],
-    );
+    if (typeof obj === 'object' && !obj.length) {
+      Object.keys(obj).forEach(
+        (key) => (obj[key] == null || obj[key] == undefined) && delete obj[key],
+      );
+    }
+
+    if (typeof obj === 'object' && obj.length > 0) {
+      obj = obj.filter((key) => {
+        if (typeof key === 'object' && !key.length) {
+          return HelperUtils.removeNulls(key);
+        }
+        return key == null || key == undefined;
+      });
+    }
     return obj;
   };
 

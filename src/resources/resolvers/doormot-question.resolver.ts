@@ -72,13 +72,13 @@ export class DoormotQuestionResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => ManyDoormotQuestionResponse)
-  findManyDoormotQuestions(
+  getManyDoormotQuestions(
     @I18n() i18n: I18nContext,
     @Args('paginateDoormotQuestionsInput')
     filter: PaginateDoormotQuestionsParams,
   ) {
     try {
-      return this.doormotQuestionService.findManyDoormotQuestions(filter, i18n);
+      return this.doormotQuestionService.getManyDoormotQuestions(filter, i18n);
     } catch (error) {
       throw this.error.handler(error);
     }

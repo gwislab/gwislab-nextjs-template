@@ -17,9 +17,7 @@ export class CommonEntityParams {
 
 @InputType()
 export class CommonCreateParams {
-  @Field(() => String, { nullable: true })
   createdBy?: string;
 
-  @Field(() => String, { nullable: true })
   updatedBy?: string;
 }

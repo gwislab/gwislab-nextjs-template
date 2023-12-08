@@ -12,8 +12,6 @@ export class SaveDoormotQuestionParams extends CommonCreateParams {
   @Field(() => String)
   text: string;
 
-  @Field(() => GraphQLJSONObject)
+  @Field(() => GraphQLJSONObject, { nullable: true })
   extraData?: any;
-
-  createdBy: string;
 }

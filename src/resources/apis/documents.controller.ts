@@ -37,7 +37,7 @@ export class DocumentsController {
   ): Promise<Response<any, Record<string, any>> | Observable<any>> {
     try {
       const { status, ...responseData } =
-        await this.documentsService.findOneServerDocument(filename);
+        await this.documentsService.getOneServerDocument(filename);
 
       if (status !== HttpStatus.OK) {
         return res.status(status).send(responseData);
@@ -54,14 +54,14 @@ export class DocumentsController {
   }
 
   @Get('/pb/:filename')
-  async findPublicFile(
+  async getPublicFile(
     @Param('filename') filename: string,
     @I18n() i18n: I18nContext,
     @Res() res: Response,
   ): Promise<Response<any, Record<string, any>> | Observable<any>> {
     try {
       const { status, ...responseData } =
-        await this.documentsService.findOneServerDocument(filename);
+        await this.documentsService.getOneServerDocument(filename);
 
       if (status !== HttpStatus.OK) {
         return res.status(status).send(responseData);
@@ -88,7 +88,7 @@ export class DocumentsController {
   > {
     try {
       const { status, ...responseData } =
-        await this.documentsService.findOneServerDocument(filename);
+        await this.documentsService.getOneServerDocument(filename);
 
       if (status !== HttpStatus.OK) {
         return res.status(status).send(responseData);
@@ -121,7 +121,7 @@ export class DocumentsController {
   > {
     try {
       const { status, ...responseData } =
-        await this.documentsService.findOneServerDocument(filename);
+        await this.documentsService.getOneServerDocument(filename);
 
       if (status !== HttpStatus.OK) {
         return res.status(status).send(responseData);

@@ -58,26 +58,22 @@ type Mutation {
 }
 
 input PaginateDoormotQuestionsParams {
-  createdBy: String
   extraData: JSONObject
   id: String
   limit: Int
   page: Int
   text: String
-  updatedBy: String
 }
 
 type Query {
-  findManyDoormotQuestions(paginateDoormotQuestionsInput: PaginateDoormotQuestionsParams!): ManyDoormotQuestionResponse!
+  getManyDoormotQuestions(paginateDoormotQuestionsInput: PaginateDoormotQuestionsParams!): ManyDoormotQuestionResponse!
   me: UserResponse!
   publishChat: String!
 }
 
 input SaveDoormotQuestionParams {
-  createdBy: String
-  extraData: JSONObject!
+  extraData: JSONObject
   text: String!
-  updatedBy: String
 }
 
 input SignUpUserParams {
@@ -102,10 +98,8 @@ input UpdateDoormotQuestionParams {
 }
 
 input UpdateDoormotQuestionParamsData {
-  createdBy: String
   extraData: JSONObject
   text: String
-  updatedBy: String
 }
 
 type UserEntity {

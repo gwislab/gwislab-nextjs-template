@@ -105,11 +105,11 @@ model DoormotQuestion {
 }
 
 model DoormotQuestionUserAnswer {
-  id                String  @id @default(uuid())
-  text              String?
-  extraData         Json?   @default("{}") @map("extra_data")
-  userId            String  @map("user_id")
-  doormotQuestionId String  @map("doormot_question_id")
+  id                String @id @default(uuid())
+  text              String @unique
+  extraData         Json?  @default("{}") @map("extra_data")
+  userId            String @map("user_id")
+  doormotQuestionId String @map("doormot_question_id")
 
   doormotQuestion DoormotQuestion @relation(fields: [doormotQuestionId], references: [id])
   user            User            @relation(fields: [userId], references: [id])

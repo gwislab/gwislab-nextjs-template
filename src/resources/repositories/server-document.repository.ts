@@ -27,7 +27,7 @@ export class ServerDocumentRepository {
     }
   };
 
-  findServerDocumentByFilter = async (
+  getServerDocumentByFilter = async (
     where: FilterServerDocumentParams,
   ): Promise<ServerDocument> => {
     try {
