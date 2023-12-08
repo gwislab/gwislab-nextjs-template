@@ -55,10 +55,10 @@ model User {
   isPhoneNumberVerified Boolean @default(false) @map("is_phone_number_verified")
   isTermsAgreed         Boolean @default(false) @map("is_terms_agreed")
 
-  createdAt                 DateTime                    @default(now()) @map("created_at")
-  updatedAt                 DateTime                    @updatedAt @map("updated_at")
-  deletedAt                 DateTime?
-  DoormotQuestionUserAnswer DoormotQuestionUserAnswer[]
+  createdAt                   DateTime                      @default(now()) @map("created_at")
+  updatedAt                   DateTime                      @updatedAt @map("updated_at")
+  deletedAt                   DateTime?
+  DoormotQuestionUserResponse DoormotQuestionUserResponse[]
 
   @@map("user")
 }
@@ -99,14 +99,14 @@ model DoormotQuestion {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  deletedAt                 DateTime?                   @map("deleted_at")
-  DoormotQuestionUserAnswer DoormotQuestionUserAnswer[]
+  deletedAt                   DateTime?                     @map("deleted_at")
+  DoormotQuestionUserResponse DoormotQuestionUserResponse[]
 
   @@unique([textEn, textFr])
   @@map("doormot_question")
 }
 
-model DoormotQuestionUserAnswer {
+model DoormotQuestionUserResponse {
   id                String @id @default(uuid())
   text              String
   extraData         Json?  @default("{}") @map("extra_data")
@@ -122,5 +122,5 @@ model DoormotQuestionUserAnswer {
 
   deletedAt DateTime? @map("deleted_at")
 
-  @@map("doormot_question_user_answer")
+  @@map("doormot_question_user_response")
 }

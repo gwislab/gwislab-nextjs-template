@@ -22,7 +22,7 @@ import {
 import { AuthGuard, IsAdmin } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
-import { DoormotQuestionService } from 'resources/services/dootmor-question.service';
+import { DoormotQuestionService } from 'resources/services/dootmot-question.service';
 
 @Resolver(() => DoormotQuestionEntity)
 export class DoormotQuestionResolver {

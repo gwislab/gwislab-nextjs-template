@@ -12,6 +12,20 @@ type DoormotQuestionEntity {
   updatedBy: String
 }
 
+type DoormotQuestionResponseEntity {
+  createdAt: String
+  createdBy: String
+  doormotQuestion: DoormotQuestionEntity
+  doormotQuestionId: String!
+  extraData: JSONObject!
+  id: String!
+  text: String!
+  updatedAt: String
+  updatedBy: String
+  user: UserEntity
+  userId: String!
+}
+
 enum ELocale {
   EN
   FR
@@ -48,13 +62,30 @@ type ManyDoormotQuestionResponse {
   payload: [DoormotQuestionEntity!]!
 }
 
+type ManyDoormotQuestionResponseResponse {
+  message: String!
+  payload: [DoormotQuestionResponseEntity!]!
+}
+
 type Mutation {
+  createManyDoormotQuestionResponses(createManyDoormotQuestionResponsesInput: [SaveDoormotQuestionResponseParams!]!): ManyDoormotQuestionResponseResponse!
   createManyDoormotQuestions(createManyDoormotQuestionsInput: [SaveDoormotQuestionParams!]!): ManyDoormotQuestionResponse!
   loginUser(loginUserInput: LoginUserParams!): UserResponse!
   removeManyDoormotQuestion(id: String!): SingleDoormotQuestionResponse!
+  removeManyDoormotQuestionResponse(id: String!): SingleDoormotQuestionResponseResponse!
   resendEmailVerificationLink: UserResponse!
   signupUser(signupUserInput: SignUpUserParams!): UserResponse!
   updateDoormotQuestion(updateDoormotQuestionInput: UpdateDoormotQuestionParams!): SingleDoormotQuestionResponse!
+  updateDoormotQuestionResponse(updateDoormotQuestionResponseInput: UpdateDoormotQuestionResponseParams!): SingleDoormotQuestionResponseResponse!
+}
+
+input PaginateDoormotQuestionResponsesParams {
+  extraData: JSONObject
+  id: String
+  limit: Int
+  page: Int
+  textEn: String
+  textFr: String
 }
 
 input PaginateDoormotQuestionsParams {
@@ -67,6 +98,7 @@ input PaginateDoormotQuestionsParams {
 }
 
 type Query {
+  getManyDoormotQuestionResponses(paginateDoormotQuestionResponsesInput: PaginateDoormotQuestionResponsesParams!): ManyDoormotQuestionResponseResponse!
   getManyDoormotQuestions(paginateDoormotQuestionsInput: PaginateDoormotQuestionsParams!): ManyDoormotQuestionResponse!
   me: UserResponse!
   publishChat: String!
@@ -76,6 +108,12 @@ input SaveDoormotQuestionParams {
   extraData: JSONObject
   textEn: String!
   textFr: String!
+}
+
+input SaveDoormotQuestionResponseParams {
+  doormotQuestionId: String!
+  extraData: JSONObject
+  text: String!
 }
 
 input SignUpUserParams {
@@ -88,6 +126,11 @@ input SignUpUserParams {
 type SingleDoormotQuestionResponse {
   message: String!
   payload: DoormotQuestionEntity!
+}
+
+type SingleDoormotQuestionResponseResponse {
+  message: String!
+  payload: DoormotQuestionResponseEntity!
 }
 
 type Subscription {
@@ -103,6 +146,17 @@ input UpdateDoormotQuestionParamsData {
   extraData: JSONObject
   textEn: String
   textFr: String
+}
+
+input UpdateDoormotQuestionResponseParams {
+  data: UpdateDoormotQuestionResponseParamsData!
+  id: String!
+}
+
+input UpdateDoormotQuestionResponseParamsData {
+  doormotQuestionId: String
+  extraData: JSONObject
+  text: String
 }
 
 type UserEntity {

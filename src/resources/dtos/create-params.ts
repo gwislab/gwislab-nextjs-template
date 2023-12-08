@@ -18,3 +18,17 @@ export class SaveDoormotQuestionParams extends CommonCreateParams {
   @Field(() => GraphQLJSONObject, { nullable: true })
   extraData?: any;
 }
+
+@InputType()
+export class SaveDoormotQuestionResponseParams extends CommonCreateParams {
+  @Field(() => String)
+  text: string;
+
+  @Field(() => String)
+  doormotQuestionId: string;
+
+  userId: string;
+
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  extraData?: any;
+}

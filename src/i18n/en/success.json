@@ -1,5 +1,6 @@
 {
     "success": "operation successful",
     "signupEmailSent": "Thank you for signing up, a verification link is sent to your email",
-    "verificationLinkResent": "Please check your email, a verification link is sent to your email"
+    "verificationLinkResent": "Please check your email, a verification link is sent to your email",
+    "thankYouResponse": "Successful! Thank you for your feedback"
 }
