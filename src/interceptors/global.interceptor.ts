@@ -19,6 +19,8 @@ export class GlobalInterceptor implements NestInterceptor {
     return next.handle().pipe(
       // map((data) => HelperUtils.removeNulls(data)),
       catchError((err) => {
+        console.log({ err });
+
         let message: any[] = err.response.message;
         const property = err.response.property;
         const error = err.response.error;

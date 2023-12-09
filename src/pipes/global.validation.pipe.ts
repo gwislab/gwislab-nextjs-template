@@ -41,7 +41,7 @@ export class GlobalParamsValidator implements PipeTransform {
       return value;
     }
 
-    if (value?.cpassword && value?.cpassword !== value?.password) {
+    if (value?.confirmPassword && value?.confirmPassword !== value?.password) {
       throw new BadRequestException(
         HelperUtils.structureError('password', 'passwordNotMatch'),
       );
@@ -67,7 +67,7 @@ export class GlobalParamsValidator implements PipeTransform {
         HelperUtils.structureError('input', 'invalidPaginationValue'),
       );
     }
-    delete value?.cpassword;
+    delete value?.confirmPassword;
 
     return value;
   };

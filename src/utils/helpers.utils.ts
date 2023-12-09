@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { AppErrorUtils } from './error.utils';
 import * as moment from 'moment';
-import { IsMatchArgs } from 'interfaces';
+import { ICacheKey, IsMatchArgs } from 'interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { AppLoggerUtils } from './logger.utils';
-import { AppConfig } from 'config';
+import { AppConfig, CacheKeys } from 'config';
 import { UserEntity } from 'resources/entities';
+import uniqid from 'uniqid';
 
 @Injectable()
 export class HelperUtils {
@@ -41,17 +42,37 @@ export class HelperUtils {
   addSecondsToDate = (date: Date, seconds: number) =>
     moment(date).add(seconds, 'seconds');
 
+  generateRandomNumber = () => {
+    const min = 1000;
+    const max = 9999;
+    return (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+  };
+
+  getUserCacheKey = (userId: string, cacheKey: ICacheKey) =>
+    CacheKeys[cacheKey] + userId;
+
+  getUserName = (user: UserEntity) =>
+    user.name
+      ? user.name
+      : user.firstName || user.lastName
+        ? user.firstName + ' ' + user.lastName
+        : user.email;
+
+  generateReference(idPrefix = 'doormot'): string {
+    return `${uniqid(`${idPrefix}-`)}-${Date.now()}`.toLowerCase();
+  }
+
   generateEmailLink = async (user: UserEntity) => {
     try {
       const expiresAt = this.addSecondsToDate(
         new Date(),
-        AppConfig.emailJwtExpirySec,
+        AppConfig.emailJwtExpiryInSec,
       );
 
       const payload = { userId: user.id, email: user.email };
 
       const token = await this.jwtService.signAsync(payload, {
-        expiresIn: AppConfig.emailJwtExpirySec,
+        expiresIn: AppConfig.emailJwtExpiryInSec,
       });
 
       return {

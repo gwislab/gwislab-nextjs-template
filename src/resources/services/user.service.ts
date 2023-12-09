@@ -1,7 +1,16 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { AppLoggerUtils } from '../../utils/logger.utils';
-import { SignUpUserParams, LoginUserParams } from '../dtos/user-auth.input';
-import { UserResponse, UserEntity } from '../entities/user.entity';
+import {
+  SignUpUserParams,
+  LoginUserParams,
+  VerifyForgotPasswordCodeParams,
+} from '../dtos/user-auth.input';
+import {
+  UserResponse,
+  UserEntity,
+  SendVerificationCodeResponse,
+  VerifyForgotPasswordCodeResponse,
+} from '../entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../repositories/user.repository';
 import { AppErrorUtils } from '../../utils/error.utils';
@@ -12,8 +21,15 @@ import { emailTemplates } from 'assets/emails';
 import { I18nContext } from 'nestjs-i18n';
 import { EmailUtils } from 'utils/email.utils';
 import { cwd } from 'process';
-import { ErrorCode } from 'config';
-import { UpdateUserDetailsParams } from 'resources/dtos';
+import { AppConfig, ErrorCode } from 'config';
+import {
+  ResendCodeParams,
+  ResetPasswordParams,
+  UpdateMePasswordParams,
+  UpdateUserDetailsParams,
+} from 'resources/dtos';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
@@ -27,6 +43,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly utils: HelperUtils,
     private readonly emailUtils: EmailUtils,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     this.logger.setContext(UserService.name);
   }
@@ -60,7 +77,7 @@ export class UserService {
       const { verificationLink, expiresAt } =
         await this.utils.generateEmailLink(user);
 
-      const html = emailTemplates.newSignup.getTemplates[i18n.lang]({
+      const html = emailTemplates.newSignup[i18n.lang]({
         subject,
         username: data.email,
         verificationLink,
@@ -116,9 +133,9 @@ export class UserService {
       const { verificationLink, expiresAt } =
         await this.utils.generateEmailLink(user);
 
-      const html = emailTemplates.newSignup.getTemplates[i18n.lang]({
+      const html = emailTemplates.newSignup[i18n.lang]({
         subject,
-        username: user.email,
+        username: this.utils.getUserName(user),
         verificationLink,
         expiresAt,
       });
@@ -214,6 +231,186 @@ export class UserService {
         return { token: this.jwtService.sign(req.user), expiresIn };
       }
       return { token, expiresIn };
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  updateMePassword = async (
+    id: string,
+    data: UpdateMePasswordParams,
+    i18n: I18nContext,
+  ): Promise<string> => {
+    try {
+      const user = await this.userRepository.getUserByFilter({ id: id });
+      if (!user) {
+        throw this.error.handler(
+          i18n.t('errors.userNotFound'),
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      if (
+        !(await this.utils.isHashMatch({
+          password: data.currentPassword,
+          hash: user.password,
+        }))
+      ) {
+        throw this.error.handler(
+          i18n.t('errors.invalidPassword'),
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      await this.userRepository.updateUserDetails(user.id, {
+        password: await this.utils.hashText(data.password),
+      });
+
+      return i18n.t('success.passwordUpdated');
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  resendVerificationCode = async (
+    { email }: ResendCodeParams,
+    i18n: I18nContext,
+  ): Promise<SendVerificationCodeResponse> => {
+    try {
+      const user = await this.userRepository.getUserByFilter({
+        email,
+      });
+
+      if (!user) {
+        throw this.error.handler(
+          i18n.t('errors.userNotFound'),
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
+      const code = this.utils.generateRandomNumber();
+      await this.cacheManager.set(
+        cacheKey,
+        code,
+        AppConfig.verificationCodeExpiryInSec,
+      );
+
+      const expiresAt = this.utils.addSecondsToDate(
+        new Date(),
+        AppConfig.verificationCodeExpiryInSec,
+      );
+
+      const subject = i18n.t(`email.verificationCode`);
+
+      const html = emailTemplates.verificationCode[i18n.lang]({
+        subject,
+        username: this.utils.getUserName(user),
+        expiresAt: expiresAt.toString(),
+        code,
+      });
+
+      await this.emailUtils.sendEmail({
+        to: user.email,
+        subject: subject + ': ' + code,
+        html,
+      });
+
+      return {
+        message: i18n.t('success.codeSent'),
+        payload: {
+          sentTo: user.email,
+          expirationInSec: AppConfig.verificationCodeExpiryInSec,
+        },
+      };
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  resetPassword = async (
+    data: ResetPasswordParams,
+    i18n: I18nContext,
+  ): Promise<string> => {
+    try {
+      const user = await this.userRepository.getUserByFilter({
+        email: data.email,
+      });
+      if (!user) {
+        throw this.error.handler(
+          i18n.t('errors.userNotFound'),
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const cacheKey = this.utils.getUserCacheKey(
+        user.id,
+        'VERIFICATION_CODE_REFERENCE',
+      );
+      const reference = await this.cacheManager.get(cacheKey);
+
+      if (reference !== data.verificationReference) {
+        throw this.error.handler(
+          i18n.t('errors.sessionTimeout'),
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      await this.userRepository.updateUserDetails(user.id, {
+        password: await this.utils.hashText(data.password),
+      } as any);
+
+      return i18n.t('success.passwordReset');
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  };
+
+  verifyForgotPasswordCode = async (
+    data: VerifyForgotPasswordCodeParams,
+    i18n: I18nContext,
+  ): Promise<VerifyForgotPasswordCodeResponse> => {
+    try {
+      const user = await this.userRepository.getUserByFilter({
+        email: data.email,
+      });
+      if (!user) {
+        throw this.error.handler(
+          i18n.t('errors.userNotFound'),
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
+      const code = await this.cacheManager.get(cacheKey);
+
+      console.log({ code });
+
+      if (code !== data.code) {
+        throw this.error.handler(
+          i18n.t('errors.invalidVerificationCode'),
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const cacheRef = this.utils.getUserCacheKey(
+        user.id,
+        'VERIFICATION_CODE_REFERENCE',
+      );
+      const verificationReference = this.utils.generateReference();
+      await this.cacheManager.set(
+        cacheRef,
+        verificationReference,
+        60 * 10, // 10 minutes
+      );
+
+      return {
+        message: i18n.t('success.passwordReset'),
+        payload: {
+          verificationReference,
+          email: user.email,
+        },
+      };
     } catch (error) {
       throw this.error.handler(error);
     }

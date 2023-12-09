@@ -3,5 +3,8 @@
     "signupEmailSent": "Merci de vous être inscrit, un lien de vérification est envoyés à votre adresse électronique",
     "verificationLinkResent": "Veuillez vérifier votre courrier électronique, un lien de vérification est envoyé à votre adresse électronique.",
     "thankYouResponse": "Succès ! Nous vous remercions pour vos commentaires",
-    "updated": "Mise à jour réussie"
+    "updated": "Mise à jour réussie",
+    "passwordUpdated": "Votre mot de passe a été mis à jour avec succès",
+    "codeSent": "Un code de vérification a été envoyé à votre e-mail",
+    "passwordReset": "La réinitialisation de votre mot de passe a été effectuée avec succès"
 }

@@ -10,17 +10,28 @@ import {
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PubSub } from 'graphql-subscriptions';
-import { UserResponse, UserEntity } from 'resources/entities';
+import {
+  UserResponse,
+  UserEntity,
+  SendVerificationCodeResponse,
+  VerifyForgotPasswordCodeResponse,
+} from 'resources/entities';
 import { UserService } from 'resources/services';
 import { AppErrorUtils, AppLoggerUtils } from 'utils';
 import {
   LoginUserParams,
+  ResendCodeParams,
+  ResetPasswordParams,
   SignUpUserParams,
+  UpdateMePasswordParams,
   UpdateUserDetailsParams,
+  VerifyForgotPasswordCodeParams,
 } from 'resources/dtos';
 import { AuthGuard } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
+import { CacheTTL } from '@nestjs/cache-manager';
+import { AppConfig } from 'config';
 
 @Resolver(() => UserEntity)
 export class UserResolver {
@@ -59,6 +70,7 @@ export class UserResolver {
     }
   }
 
+  @CacheTTL(AppConfig.emailJwtExpiryInSec)
   @UseGuards(AuthGuard)
   @Mutation(() => UserResponse)
   resendEmailVerificationLink(
@@ -91,6 +103,68 @@ export class UserResolver {
     try {
       const { user } = req;
       return this.userService.getMe(user.id, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  updateMePassword(
+    @Args('updateMePasswordInput')
+    updateMePasswordInput: UpdateMePasswordParams,
+    @Context() { req }: AppContext,
+    @I18n() i18n: I18nContext,
+  ) {
+    try {
+      const { user } = req;
+      return this.userService.updateMePassword(
+        user.id,
+        updateMePasswordInput,
+        i18n,
+      );
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @Mutation(() => String)
+  resetPassword(
+    @Args('resetPasswordInput') resetPasswordInput: ResetPasswordParams,
+    @I18n() i18n: I18nContext,
+  ) {
+    try {
+      return this.userService.resetPassword(resetPasswordInput, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @CacheTTL(AppConfig.verificationCodeExpiryInSec)
+  @Mutation(() => SendVerificationCodeResponse)
+  resendVerificationCode(
+    @Args('resendCodeInput') resendCodeInput: ResendCodeParams,
+    @I18n() i18n: I18nContext,
+  ) {
+    try {
+      return this.userService.resendVerificationCode(resendCodeInput, i18n);
+    } catch (error) {
+      throw this.error.handler(error);
+    }
+  }
+
+  @CacheTTL(AppConfig.verificationCodeExpiryInSec)
+  @Mutation(() => VerifyForgotPasswordCodeResponse)
+  verifyForgotPasswordCode(
+    @Args('verifyForgotPasswordCodeInput')
+    verifyForgotPasswordCodeInput: VerifyForgotPasswordCodeParams,
+    @I18n() i18n: I18nContext,
+  ) {
+    try {
+      return this.userService.verifyForgotPasswordCode(
+        verifyForgotPasswordCodeInput,
+        i18n,
+      );
     } catch (error) {
       throw this.error.handler(error);
     }

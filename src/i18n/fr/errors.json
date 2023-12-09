@@ -14,8 +14,10 @@
   "requiredField": "champ obligatoire",
   "fieldRequired": "{field} obligatoire",
   "unauthorized": "unauthorized",
+  "invalidVerificationCode": "Code de vérification non valide ou expiré",
   "tooManyRequest": "trop de demandes",
   "somethingWentWrong": "Quelque chose s'est mal passé, veuillez nous contacter à l'adresse issues@gwislab.com",
   "invalidVerificationLink": "lien de vérification non valide, le lien a peut-être expiré",
-  "verificationLinkExpired": "Ce lien de vérification a expiré, veuillez vous rendre sur l'application et demander un nouveau lien."
+  "verificationLinkExpired": "Ce lien de vérification a expiré, veuillez vous rendre sur l'application et demander un nouveau lien.",
+  "sessionTimeout": "La session a été interrompue, veuillez revenir en arrière et réessayer"
 }

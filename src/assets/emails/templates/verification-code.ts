@@ -1,11 +1,11 @@
-import { INewSignupParams } from 'interfaces';
+import { IVerificationCodeParams } from 'interfaces';
 
-export const newSignupTemplateEn = ({
+export const verificationCodeEn = ({
   username,
   subject,
-  verificationLink,
+  code,
   expiresAt,
-}: INewSignupParams) => `
+}: IVerificationCodeParams) => `
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +25,10 @@ export const newSignupTemplateEn = ({
         width: 70%;
         min-width: 600px;
         margin: auto;
+      }
+      .code {
+        font-size: 20px;
+        font-weight: bold;
       }
     </style>
   </head>
@@ -39,15 +43,13 @@ export const newSignupTemplateEn = ({
               <b>${username}</b>
             </p>
             <p >
-              Welcome to doormot
+             Doormot got your back
               </p>
               <p>
-                Click on the link below to verify your email address
+                Use the verification code below to reset your forgotten password
               </p>
-              <p>
-              <a href="${verificationLink}">Verify my Email</a>
-              </p>
-              <p style="font-size: small;">This link will expire at ${expiresAt}</p>
+              <p class="code">${code}</p>
+              <p style="font-size: small;">This code will expire at ${expiresAt}</p>
           </div>
         </div>
       </div>
@@ -57,12 +59,12 @@ export const newSignupTemplateEn = ({
 
 `;
 
-export const newSignupTemplateFr = ({
+export const verificationCodeFr = ({
   username,
   subject,
-  verificationLink,
+  code,
   expiresAt,
-}: INewSignupParams) => `
+}: IVerificationCodeParams) => `
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,6 +85,10 @@ export const newSignupTemplateFr = ({
         min-width: 600px;
         margin: auto;
       }
+      .code {
+        font-size: 20px;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -96,15 +102,13 @@ export const newSignupTemplateFr = ({
               <b>${username}</b>
             </p>
             <p >
-            Bienvenue sur doormot
+            Doormot vous couvre
               </p>
               <p>
-              Cliquez sur le lien ci-dessous pour vérifier votre adresse e-mail.
+              Utilisez le code de vérification ci-dessous pour réinitialiser votre mot de passe oublié
               </p>
-              <p>
-              <a href="${verificationLink}">Vérifier mon adresse e-mail</a>
-              </p>
-              <p style="font-size: small;">Ce lien expirera à ${expiresAt}</p>
+              <p class="code"> ${code}</p>
+              <p style="font-size: small;">Ce code expirera à ${expiresAt}</p>
           </div>
         </div>
       </div>

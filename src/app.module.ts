@@ -18,6 +18,7 @@ import { ApiModule } from 'resources/apis/index.module';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GlobalInterceptor } from 'interceptors';
 import { GlobalParamsValidator } from 'pipes';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 const langOptions = [
   'lang',
@@ -32,6 +33,10 @@ const pubsub = new PubSub();
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CacheModule.register({
+      ttl: 10, // 10 seconds
+      isGlobal: true,
+    }),
     I18nModule.forRoot({
       fallbackLanguage: config.defaultLanguage,
       loaderOptions: {
@@ -99,6 +104,10 @@ const pubsub = new PubSub();
     {
       provide: APP_INTERCEPTOR,
       useClass: GlobalInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
     },
   ],
 })

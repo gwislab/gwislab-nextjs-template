@@ -1,3 +1,4 @@
 {
-    "newSignupSubject": "Verify your email address"
+    "newSignupSubject": "Verify your email address",
+    "verificationCode": "Reset your password"
 }

@@ -3,15 +3,20 @@ import {
   newSignupTemplateEn,
   newSignupTemplateFr,
 } from './templates/new-signup';
+import {
+  verificationCodeEn,
+  verificationCodeFr,
+} from './templates/verification-code';
 
-type templateKeys = 'newSignup';
+type templateKeys = 'newSignup' | 'verificationCode';
 
 export const emailTemplates: Record<templateKeys, IEmailTemplates> = {
   newSignup: {
-    subject: 'Verify your email',
-    getTemplates: {
-      en: newSignupTemplateEn,
-      fr: newSignupTemplateFr,
-    },
+    en: newSignupTemplateEn,
+    fr: newSignupTemplateFr,
+  },
+  verificationCode: {
+    en: verificationCodeEn,
+    fr: verificationCodeFr,
   },
 };

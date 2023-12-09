@@ -13,9 +13,11 @@
   "fieldRequired": "{field} required",
   "404": "404 error",
   "forbidden": "forbidden",
+  "invalidVerificationCode": "Verification code invalid or expired",
   "unauthorized": "unauthorized",
   "tooManyRequest": "too many request",
   "somethingWentWrong": "something went wrong, please contact us at issues@gwislab.com",
   "invalidVerificationLink": "invalid verification link",
-  "verificationLinkExpired": "this verification link has expired, please go to the app and request for a new link"
+  "verificationLinkExpired": "this verification link has expired, please go to the app and request for a new link",
+  "sessionTimeout": "Session was timed out, please go back and try again"
 }

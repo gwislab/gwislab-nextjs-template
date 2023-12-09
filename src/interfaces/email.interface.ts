@@ -5,9 +5,16 @@ export interface INewSignupParams {
   verificationLink: string;
 }
 
-export type ITemplateReturnType = INewSignupParams;
-
-export interface IEmailTemplates {
+export interface IVerificationCodeParams {
+  username: string;
   subject: string;
-  getTemplates: Record<string, (args: ITemplateReturnType) => string>;
+  expiresAt: string;
+  code: string;
 }
+
+export type ITemplateReturnType = INewSignupParams | IVerificationCodeParams;
+
+export type IEmailTemplates = Record<
+  string,
+  (args: ITemplateReturnType) => string
+>;

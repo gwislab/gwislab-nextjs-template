@@ -72,6 +72,8 @@ export class UpdateUserDetailsParams {
 
   @Field(() => Boolean, { nullable: true })
   isAccountSetup?: boolean;
+
+  password?: string;
 }
 
 @InputType()

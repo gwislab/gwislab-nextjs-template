@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { ELocale, ESignUpMethod, EUserGender, EUserRole } from '@prisma/client';
 import { CommonEntityParams } from 'resources/dtos';
 
@@ -80,4 +80,40 @@ export class UserResponse {
 
   @Field(() => UserEntity)
   payload: UserEntity;
+}
+
+@ObjectType()
+export class SendVerificationCodePayload {
+  @Field(() => String)
+  sentTo: string;
+
+  @Field(() => Int)
+  expirationInSec: number;
+}
+
+@ObjectType()
+export class SendVerificationCodeResponse {
+  @Field(() => String)
+  message: string;
+
+  @Field(() => SendVerificationCodePayload)
+  payload: SendVerificationCodePayload;
+}
+
+@ObjectType()
+export class VerifyForgotPasswordCodePayload {
+  @Field(() => String)
+  email: string;
+
+  @Field(() => String)
+  verificationReference: string;
+}
+
+@ObjectType()
+export class VerifyForgotPasswordCodeResponse {
+  @Field(() => String)
+  message: string;
+
+  @Field(() => VerifyForgotPasswordCodePayload)
+  payload: VerifyForgotPasswordCodePayload;
 }

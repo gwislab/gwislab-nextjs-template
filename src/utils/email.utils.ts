@@ -11,7 +11,7 @@ export class EmailUtils {
     this.logger.setContext(EmailUtils.name);
   }
   sendEmail = async (params: { to: string; html: string; subject: string }) => {
-    if (config.isDevEnv) {
+    if (config.isTestEnv) {
       return true;
     }
     try {

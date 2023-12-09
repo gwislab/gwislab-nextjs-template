@@ -74,10 +74,14 @@ type Mutation {
   removeManyDoormotQuestion(id: String!): SingleDoormotQuestionResponse!
   removeManyDoormotQuestionResponse(id: String!): SingleDoormotQuestionResponseResponse!
   resendEmailVerificationLink: UserResponse!
+  resendVerificationCode(resendCodeInput: ResendCodeParams!): SendVerificationCodeResponse!
+  resetPassword(resetPasswordInput: ResetPasswordParams!): String!
   signupUser(signupUserInput: SignUpUserParams!): UserResponse!
   updateDoormotQuestion(updateDoormotQuestionInput: UpdateDoormotQuestionParams!): SingleDoormotQuestionResponse!
   updateDoormotQuestionResponse(updateDoormotQuestionResponseInput: UpdateDoormotQuestionResponseParams!): SingleDoormotQuestionResponseResponse!
+  updateMePassword(updateMePasswordInput: UpdateMePasswordParams!): String!
   updateUserDetails(updateUserInput: UpdateUserDetailsParams!): UserResponse!
+  verifyForgotPasswordCode(verifyForgotPasswordCodeInput: VerifyForgotPasswordCodeParams!): VerifyForgotPasswordCodeResponse!
 }
 
 input PaginateDoormotQuestionResponsesParams {
@@ -105,6 +109,17 @@ type Query {
   publishChat: String!
 }
 
+input ResendCodeParams {
+  email: String!
+}
+
+input ResetPasswordParams {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  verificationReference: String!
+}
+
 input SaveDoormotQuestionParams {
   extraData: JSONObject
   textEn: String!
@@ -117,8 +132,18 @@ input SaveDoormotQuestionResponseParams {
   text: String
 }
 
+type SendVerificationCodePayload {
+  expirationInSec: Int!
+  sentTo: String!
+}
+
+type SendVerificationCodeResponse {
+  message: String!
+  payload: SendVerificationCodePayload!
+}
+
 input SignUpUserParams {
-  cpassword: String!
+  confirmPassword: String!
   email: String!
   isTermsAgreed: Boolean!
   password: String!
@@ -158,6 +183,12 @@ input UpdateDoormotQuestionResponseParamsData {
   doormotQuestionId: String
   extraData: JSONObject
   text: String
+}
+
+input UpdateMePasswordParams {
+  confirmPassword: String!
+  currentPassword: String!
+  password: String!
 }
 
 input UpdateUserDetailsParams {
@@ -216,4 +247,19 @@ type UserEntity {
 type UserResponse {
   message: String!
   payload: UserEntity!
+}
+
+input VerifyForgotPasswordCodeParams {
+  code: String!
+  email: String!
+}
+
+type VerifyForgotPasswordCodePayload {
+  email: String!
+  verificationReference: String!
+}
+
+type VerifyForgotPasswordCodeResponse {
+  message: String!
+  payload: VerifyForgotPasswordCodePayload!
 }

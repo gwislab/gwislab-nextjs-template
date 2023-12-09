@@ -14,7 +14,7 @@ export class SignUpUserParams {
   password: string;
 
   @Field(() => String)
-  cpassword: string;
+  confirmPassword: string;
 }
 
 @InputType()
@@ -25,4 +25,49 @@ export class LoginUserParams {
 
   @Field(() => String)
   password: string;
+}
+
+@InputType()
+export class UpdateMePasswordParams {
+  @Field(() => String)
+  currentPassword: string;
+
+  @Field(() => String)
+  password: string;
+
+  @Field(() => String)
+  confirmPassword: string;
+}
+
+@InputType()
+export class ResetPasswordParams {
+  @Field(() => String)
+  @IsEmail(undefined, { message: 'invalidEmail' })
+  email: string;
+
+  @Field(() => String)
+  verificationReference: string;
+
+  @Field(() => String)
+  password: string;
+
+  @Field(() => String)
+  confirmPassword: string;
+}
+
+@InputType()
+export class ResendCodeParams {
+  @Field(() => String)
+  @IsEmail(undefined, { message: 'invalidEmail' })
+  email: string;
+}
+
+@InputType()
+export class VerifyForgotPasswordCodeParams {
+  @Field(() => String)
+  code: string;
+
+  @Field(() => String)
+  @IsEmail(undefined, { message: 'invalidEmail' })
+  email: string;
 }
