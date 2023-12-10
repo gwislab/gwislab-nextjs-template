@@ -34,7 +34,7 @@ const pubsub = new PubSub();
   imports: [
     ConfigModule.forRoot(),
     CacheModule.register({
-      ttl: 10, // 10 seconds
+      ttl: 10 * 1000, // 10 seconds
       isGlobal: true,
     }),
     I18nModule.forRoot({

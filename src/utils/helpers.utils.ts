@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AppLoggerUtils } from './logger.utils';
 import { AppConfig, CacheKeys } from 'config';
 import { UserEntity } from 'resources/entities';
-import uniqid from 'uniqid';
+import * as uniqid from 'uniqid';
 
 @Injectable()
 export class HelperUtils {
@@ -41,6 +41,9 @@ export class HelperUtils {
 
   addSecondsToDate = (date: Date, seconds: number) =>
     moment(date).add(seconds, 'seconds');
+
+  addMilliSecondsToDate = (date: Date, milliseconds: number) =>
+    moment(date).add(milliseconds, 'milliseconds');
 
   generateRandomNumber = () => {
     const min = 1000;

@@ -56,7 +56,6 @@ export const verificationCodeEn = ({
     </div>
   </body>
 </html>
-
 `;
 
 export const verificationCodeFr = ({

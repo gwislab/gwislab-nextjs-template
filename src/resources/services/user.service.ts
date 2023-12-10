@@ -288,17 +288,11 @@ export class UserService {
         );
       }
 
-      const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
       const code = this.utils.generateRandomNumber();
-      await this.cacheManager.set(
-        cacheKey,
-        code,
-        AppConfig.verificationCodeExpiryInSec,
-      );
 
-      const expiresAt = this.utils.addSecondsToDate(
+      const expiresAt = this.utils.addMilliSecondsToDate(
         new Date(),
-        AppConfig.verificationCodeExpiryInSec,
+        AppConfig.verificationCodeExpiryInMilliSec,
       );
 
       const subject = i18n.t(`email.verificationCode`);
@@ -316,11 +310,19 @@ export class UserService {
         html,
       });
 
+      const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
+
+      await this.cacheManager.set(
+        cacheKey,
+        code,
+        AppConfig.verificationCodeExpiryInMilliSec,
+      );
+
       return {
         message: i18n.t('success.codeSent'),
         payload: {
           sentTo: user.email,
-          expirationInSec: AppConfig.verificationCodeExpiryInSec,
+          expirationInSec: AppConfig.verificationCodeExpiryInMilliSec / 1000,
         },
       };
     } catch (error) {
@@ -384,8 +386,6 @@ export class UserService {
       const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
       const code = await this.cacheManager.get(cacheKey);
 
-      console.log({ code });
-
       if (code !== data.code) {
         throw this.error.handler(
           i18n.t('errors.invalidVerificationCode'),
@@ -397,11 +397,13 @@ export class UserService {
         user.id,
         'VERIFICATION_CODE_REFERENCE',
       );
+
       const verificationReference = this.utils.generateReference();
+
       await this.cacheManager.set(
         cacheRef,
         verificationReference,
-        60 * 10, // 10 minutes
+        60 * 10 * 1000, // 10 minutes
       );
 
       return {

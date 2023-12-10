@@ -85,7 +85,6 @@ export class AuthGuardUtils {
       }
       req.token = token;
     } catch (error) {
-      console.log({ error });
       if (error instanceof UnauthorizedException) {
         throw error;
       }

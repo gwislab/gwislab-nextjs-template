@@ -18,7 +18,8 @@ const config = {
   // EXPIRATION CONFIGS
   jwtExpiresIn: process.env.JWT_EXPIRES_IN,
   emailJwtExpiryInSec: +process.env.EMAIL_JWT_EXPIRY_IN_SEC,
-  verificationCodeExpiryInSec: +process.env.VERIFICATION_CODE_EXPIRY_IN_SEC,
+  verificationCodeExpiryInMilliSec:
+    +process.env.VERIFICATION_CODE_EXPIRY_IN_SEC * 1000, // to milliseconds,
 
   // MEDIA CONFIGS
   maxFileSize: 60 * 1000 * 1000, // 10MB in bytes

@@ -30,9 +30,10 @@ import {
 import { AuthGuard } from 'guards';
 import { AppContext } from 'interfaces';
 import { I18n, I18nContext } from 'nestjs-i18n';
-import { CacheTTL } from '@nestjs/cache-manager';
+import { CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { AppConfig } from 'config';
 
+@CacheKey('resent_code_key')
 @Resolver(() => UserEntity)
 export class UserResolver {
   constructor(
@@ -70,6 +71,7 @@ export class UserResolver {
     }
   }
 
+  @CacheKey('custom_key')
   @CacheTTL(AppConfig.emailJwtExpiryInSec)
   @UseGuards(AuthGuard)
   @Mutation(() => UserResponse)
@@ -140,7 +142,8 @@ export class UserResolver {
     }
   }
 
-  @CacheTTL(AppConfig.verificationCodeExpiryInSec)
+  @CacheKey('resent_code_key')
+  @CacheTTL(AppConfig.verificationCodeExpiryInMilliSec)
   @Mutation(() => SendVerificationCodeResponse)
   resendVerificationCode(
     @Args('resendCodeInput') resendCodeInput: ResendCodeParams,
@@ -153,7 +156,8 @@ export class UserResolver {
     }
   }
 
-  @CacheTTL(AppConfig.verificationCodeExpiryInSec)
+  @CacheKey('verify_code_key')
+  @CacheTTL(AppConfig.verificationCodeExpiryInMilliSec)
   @Mutation(() => VerifyForgotPasswordCodeResponse)
   verifyForgotPasswordCode(
     @Args('verifyForgotPasswordCodeInput')
