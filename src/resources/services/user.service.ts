@@ -456,7 +456,7 @@ export class UserService {
 
       const fullPath = path.join(
         cwd(),
-        './src/assets/emails/html/',
+        './src/assets/html/',
         user.locale.toLowerCase(),
         '/email_verified.html',
       );
