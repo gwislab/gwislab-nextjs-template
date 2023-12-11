@@ -33,7 +33,6 @@ import { I18n, I18nContext } from 'nestjs-i18n';
 import { CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { AppConfig } from 'config';
 
-@CacheKey('resent_code_key')
 @Resolver(() => UserEntity)
 export class UserResolver {
   constructor(

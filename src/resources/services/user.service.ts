@@ -312,6 +312,8 @@ export class UserService {
 
       const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
 
+      console.log({ code });
+
       await this.cacheManager.set(
         cacheKey,
         code,
@@ -385,6 +387,8 @@ export class UserService {
 
       const cacheKey = this.utils.getUserCacheKey(user.id, 'VERIFICATION_CODE');
       const code = await this.cacheManager.get(cacheKey);
+
+      console.log({ code });
 
       if (code !== data.code) {
         throw this.error.handler(

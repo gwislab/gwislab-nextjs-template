@@ -18,7 +18,8 @@ import { ApiModule } from 'resources/apis/index.module';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GlobalInterceptor } from 'interceptors';
 import { GlobalParamsValidator } from 'pipes';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { CacheModule } from '@nestjs/cache-manager';
+import responseCachePlugin from 'apollo-server-plugin-response-cache';
 
 const langOptions = [
   'lang',
@@ -63,7 +64,10 @@ const pubsub = new PubSub();
       playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      plugins: [
+        responseCachePlugin(),
+        ApolloServerPluginLandingPageLocalDefault(),
+      ],
       context: (ctx: any) => {
         logger.setContext('AppModule:context');
         let locale = config.defaultLanguage;
@@ -83,7 +87,13 @@ const pubsub = new PubSub();
       formatError: (error: GraphQLError): any => {
         logger.setContext('AppModule:formatError');
 
-        return error;
+        const errors = (error.extensions?.response as any)?.message;
+
+        return {
+          ...error,
+          errors,
+          message: errors?.[0]?.message || error.message,
+        };
       },
     }),
     JwtModule.register({
@@ -104,10 +114,6 @@ const pubsub = new PubSub();
     {
       provide: APP_INTERCEPTOR,
       useClass: GlobalInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
     },
   ],
 })

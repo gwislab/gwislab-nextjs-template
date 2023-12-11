@@ -1,29 +1,42 @@
 import {
   PipeTransform,
   Injectable,
-  BadRequestException,
   ArgumentMetadata,
+  HttpStatus,
 } from '@nestjs/common';
-import { HelperUtils } from 'utils';
+import { AppErrorUtils, HelperUtils } from 'utils';
 import {
   PaginateDoormotQuestionsParams,
   SignUpUserParams,
 } from 'resources/dtos';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { I18nContext } from 'nestjs-i18n';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
 @Injectable()
 export class GlobalParamsValidator implements PipeTransform {
+  constructor(
+    private readonly i18n: I18nService,
+    private readonly error: AppErrorUtils,
+  ) {}
+
   async transform(value: any, { metatype }: ArgumentMetadata) {
     try {
       if (!metatype || !this.toValidate(metatype)) {
         return value;
       }
+
       const object = plainToInstance(metatype, value);
       const errors = await validate(object);
+
       if (errors.length > 0) {
-        throw new BadRequestException('Validation failed');
+        const constraints = errors.map((error: any) => error?.constraints);
+        const foundErrorKey = Object.keys(constraints?.[0] || {})[0];
+
+        throw this.error.handler(
+          this.i18n.t(`errors.${constraints[0][foundErrorKey]}`),
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       value = this.validateAppInputs(value);
@@ -42,8 +55,9 @@ export class GlobalParamsValidator implements PipeTransform {
     }
 
     if (value?.confirmPassword && value?.confirmPassword !== value?.password) {
-      throw new BadRequestException(
+      throw this.error.handler(
         HelperUtils.structureError('password', 'passwordNotMatch'),
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -51,11 +65,12 @@ export class GlobalParamsValidator implements PipeTransform {
       typeof value?.isTermsAgreed === 'boolean' &&
       value?.isTermsAgreed == false
     ) {
-      throw new BadRequestException(
+      throw this.error.handler(
         HelperUtils.structureError(
           'isTermsAgreed',
           'termsAndConditionRequired',
         ),
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -63,8 +78,9 @@ export class GlobalParamsValidator implements PipeTransform {
       (value?.page && value?.page && value?.page <= 0) ||
       (value?.limit && value?.limit <= 0)
     ) {
-      throw new BadRequestException(
+      throw this.error.handler(
         HelperUtils.structureError('input', 'invalidPaginationValue'),
+        HttpStatus.BAD_REQUEST,
       );
     }
     delete value?.confirmPassword;
