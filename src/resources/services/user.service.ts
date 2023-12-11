@@ -104,6 +104,17 @@ export class UserService {
     i18n: I18nContext,
   ): Promise<UserResponse> => {
     try {
+      const userExist = await this.userRepository.getUserByFilter({
+        phoneNumber: data.phoneNumber,
+      });
+
+      if (userExist) {
+        throw this.error.handler(
+          i18n.t('errors.phoneAlreadyExists'),
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       return {
         message: i18n.t('success.updated'),
         payload: await this.userRepository.updateUserDetails(user.id, data),

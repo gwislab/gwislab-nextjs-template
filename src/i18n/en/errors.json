@@ -16,6 +16,7 @@
   "invalidVerificationCode": "Verification code invalid or expired",
   "unauthorized": "unauthorized",
   "tooManyRequest": "too many request",
+  "phoneAlreadyExists": "Phone number already exists",
   "somethingWentWrong": "something went wrong, please contact us at issues@gwislab.com",
   "invalidVerificationLink": "invalid verification link",
   "verificationLinkExpired": "this verification link has expired, please go to the app and request for a new link",

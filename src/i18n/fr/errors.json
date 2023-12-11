@@ -13,6 +13,7 @@
   "forbidden": "interdit",
   "requiredField": "champ obligatoire",
   "fieldRequired": "{field} obligatoire",
+  "phoneAlreadyExists": "Le numéro de téléphone existe déjà",
   "unauthorized": "unauthorized",
   "invalidVerificationCode": "Code de vérification non valide ou expiré",
   "tooManyRequest": "trop de demandes",
